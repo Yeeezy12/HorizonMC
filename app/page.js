@@ -39,7 +39,7 @@ const categories = [
       {
         name: 'Protección',
         products: [
-          {id:'proteccion-200', name:'Piedra de Protección de Clan 200x200', icon:'🗿', price:PRODUCT_PRICES['proteccion-200'], desc:'Piedra de protección de clan con un área de 200x200 bloques.'}
+          {id: 'proteccion-de-clan', name:'Piedra de Protección de Clan 200x200', icon:'🗿', price:PRODUCT_PRICES['proteccion-200'], desc:'Piedra de protección de clan con un área de 200x200 bloques.'}
         ]
       }
     ]
