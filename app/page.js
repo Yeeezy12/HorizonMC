@@ -63,6 +63,22 @@ const categories = [
         ]
       }
     ]
+  },
+  {
+    name: 'Coins',
+    icon: '🪙',
+    subcategories: [
+      {
+        name: 'Horizon Coins',
+        products: [
+          {id:'5000-horizon-coins', name:'5.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['5000-horizon-coins'], desc:'5.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+          {id:'10000-horizon-coins', name:'10.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['10000-horizon-coins'], desc:'10.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+          {id:'25000-horizon-coins', name:'25.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['25000-horizon-coins'], desc:'25.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+          {id:'50000-horizon-coins', name:'50.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['50000-horizon-coins'], desc:'50.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+          {id:'100000-horizon-coins', name:'100.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['100000-horizon-coins'], desc:'100.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'}
+        ]
+      }
+    ]
   }
 ];
 
@@ -295,7 +311,7 @@ export default function Home() {
         <div className="heroText">
           <div className="pill">✦ TIENDA OFICIAL DE HORIZONMC</div>
           <h1>Construye tu leyenda en <em>HorizonMC.</em></h1>
-          <p>Rangos, protección y spawners para mejorar tu experiencia dentro del servidor.</p>
+          <p>Rangos, protección, spawners y Horizon Coins para mejorar tu experiencia dentro del servidor.</p>
           <a className="primary" href="#tienda">Ver tienda <span>→</span></a>
           <div className="server"><i></i> Servidor online <strong>HorizonMC</strong></div>
         </div>
@@ -355,7 +371,7 @@ export default function Home() {
         <div className="eyebrow">CÓMO FUNCIONA</div>
         <h2>Compra y recibe tus productos</h2>
         <div className="steps">
-          <div><b>01</b><h3>Elige un producto</h3><p>Busca tu rango, protección o spawner en la categoría correspondiente.</p></div>
+          <div><b>01</b><h3>Elige un producto</h3><p>Busca tu rango, protección, spawner o Horizon Coins en la categoría correspondiente.</p></div>
           <div><b>02</b><h3>Realiza el pago</h3><p>Serás enviado al checkout seguro de Tip4Serv para completar el pago.</p></div>
           <div><b>03</b><h3>Recíbelo en Minecraft</h3><p>Tip4Serv procesa automáticamente la entrega en el servidor HorizonMC.</p></div>
         </div>

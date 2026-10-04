@@ -16,4 +16,9 @@ export const PRODUCT_PRICES = {
   vaca: 5,
   cerdo: 5,
   zombie: 5,
+  '5000-horizon-coins': 6,
+  '10000-horizon-coins': 12,
+  '25000-horizon-coins': 26,
+  '50000-horizon-coins': 54,
+  '100000-horizon-coins': 108,
 };
