@@ -51,15 +51,15 @@ const categories = [
       {
         name: 'Spawners de Mobs',
         products: [
-          {id:'golem', name:'Spawner de Golem', icon:'🗿', price:PRODUCT_PRICES.golem, desc:'Spawner de Golem.'},
-          {id:'enderman', name:'Spawner de Enderman', icon:'👁️', price:PRODUCT_PRICES.enderman, desc:'Spawner de Enderman.'},
-          {id:'blaze', name:'Spawner de Blaze', icon:'🔥', price:PRODUCT_PRICES.blaze, desc:'Spawner de Blaze.'},
-          {id:'shulker', name:'Spawner de Shulker', icon:'🟪', price:PRODUCT_PRICES.shulker, desc:'Spawner de Shulker.'},
-          {id:'creeper', name:'Spawner de Creeper', icon:'💥', price:PRODUCT_PRICES.creeper, desc:'Spawner de Creeper.'},
-          {id:'esqueleto', name:'Spawner de Esqueleto', icon:'💀', price:PRODUCT_PRICES.esqueleto, desc:'Spawner de Esqueleto.'},
-          {id:'vaca', name:'Spawner de Vaca', icon:'🐄', price:PRODUCT_PRICES.vaca, desc:'Spawner de Vaca.'},
-          {id:'cerdo', name:'Spawner de Cerdo', icon:'🐷', price:PRODUCT_PRICES.cerdo, desc:'Spawner de Cerdo.'},
-          {id:'zombie', name:'Spawner de Zombie', icon:'🧟', price:PRODUCT_PRICES.zombie, desc:'Spawner de Zombie.'}
+          {id:'spawner-de-golem', name:'Spawner de Golem', icon:'🗿', price:PRODUCT_PRICES.golem, desc:'Spawner de Golem.'},
+          {id:'spawner-de-enderman', name:'Spawner de Enderman', icon:'👁️', price:PRODUCT_PRICES.enderman, desc:'Spawner de Enderman.'},
+          {id:'spawner-de-blaze', name:'Spawner de Blaze', icon:'🔥', price:PRODUCT_PRICES.blaze, desc:'Spawner de Blaze.'},
+          {id:'spawner-de-shulker', name:'Spawner de Shulker', icon:'🟪', price:PRODUCT_PRICES.shulker, desc:'Spawner de Shulker.'},
+          {id:'spawner-de-creeper', name:'Spawner de Creeper', icon:'💥', price:PRODUCT_PRICES.creeper, desc:'Spawner de Creeper.'},
+          {id:'spawner-de-esqueleto', name:'Spawner de Esqueleto', icon:'💀', price:PRODUCT_PRICES.esqueleto, desc:'Spawner de Esqueleto.'},
+          {id:'spawner-de-vaca', name:'Spawner de Vaca', icon:'🐄', price:PRODUCT_PRICES.vaca, desc:'Spawner de Vaca.'},
+          {id:'spawner-de-cerdo', name:'Spawner de Cerdo', icon:'🐷', price:PRODUCT_PRICES.cerdo, desc:'Spawner de Cerdo.'},
+          {id:'spawner-de-zombi', name:'Spawner de Zombie', icon:'🧟', price:PRODUCT_PRICES.zombie, desc:'Spawner de Zombie.'}
         ]
       }
     ]
