@@ -591,7 +591,6 @@ export default function Home() {
   const [selected, setSelected] = useState('Inicio');
   const [sub, setSub] = useState('Rangos Básicos');
   const [rangosOpen, setRangosOpen] = useState(false);
-  const [survivalOpen, setSurvivalOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -869,19 +868,8 @@ export default function Home() {
 
   function goToCategory(category) {
     selectCategory(category);
-
-    setRangosOpen(false);
-    setSurvivalOpen(false);
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    setRangosOpen(category.name === 'Rangos');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function add(product) {
@@ -1067,165 +1055,81 @@ export default function Home() {
           </button>
 
           {categories.map(category => {
-            const isRangos =
-              category.name === 'Rangos';
-
-            const isSurvival =
-              category.name === 'Survival 1.21.11';
+            const isRangos = category.name === 'Rangos';
 
             return (
               <div
                 key={category.name}
-                className={
-                  isRangos || isSurvival
-                    ? 'sidebarCategoryGroup'
-                    : ''
-               }
-             >
-               <button
-                 className={`sidebarItem ${
-                   selected === category.name
-                     ? 'active'
-                     : ''
-                }`}
-                type="button"
-                onClick={() => {
-                  if (isRangos) {
-                    setRangosOpen(
-                      prev => !prev
-                    );
-
-                    setSurvivalOpen(false);
-
-                    selectCategory(
-                      category
-                    );
-
-                    window.scrollTo({
-                      top: 0,
-                      behavior: 'smooth'
-                    });
-                 } else if (isSurvival) {
-                   setSurvivalOpen(
-                     prev => !prev
-                   );
-
-                   setRangosOpen(false);
-
-                   selectCategory(
-                     category
-                   );
-
-                   window.scrollTo({
-                     top: 0,
-                     behavior: 'smooth'
-                   });
-                 } else {
-                   goToCategory(
-                     category
-                   );
-                 }
-               }}
-               aria-expanded={
-                 isRangos
-                   ? rangosOpen
-                   : isSurvival
-                    ? survivalOpen
-                    : undefined
-               }
-             >
-               <span>
-                 {category.icon}
-               </span>
-
-               <span className="sidebarItemLabel">
-                 {category.name === 'Coins'
-                   ? 'Horizon Coins'
-                   : category.name}
-               </span>
-
-               {(isRangos ||
-                 isSurvival) && (
-               <span
-                 className={`sidebarArrow ${
-                   (
-                     isRangos
-                       ? rangosOpen
-                       : survivalOpen
-                   )
-                     ? 'open'
-                     : ''
-                 }`}
-                 aria-hidden="true"
-               >
-                 ›
-               </span>
-             )}
-           </button>
-
-           {(
-             (isRangos &&
-               rangosOpen) ||
-             (isSurvival &&
-               survivalOpen)
-           ) && (
-             <div className="sidebarSubcategories">
-               {category.subcategories.map(
-                 subcategory => (
-                   <button
-                     key={
-                       subcategory.name
-                     }
-                     className={`sidebarSubItem ${
-                       selected ===
-                         category.name &&
-                       sub ===
-                         subcategory.name
-                         ? 'active'
-                         : ''
-                    }`}
-                    type="button"
-                    onClick={() => {
-                      setSelected(
-                        category.name
-                      );
-
-                      setSub(
-                        subcategory.name
-                      );
-
-                      window.requestAnimationFrame(
-                        () => {
-                          document
-                            .getElementById(
-                              'tienda'
-                            )
-                            ?.scrollIntoView({
-                              behavior:
-                                'smooth',
-                              block: 'start'
-                            });
-                        }
-                      );
-                    }}
-                  >
-                    <span className="sidebarSubDot">
-                      •
+                className={isRangos ? 'sidebarCategoryGroup' : ''}
+              >
+                <button
+                  className={`sidebarItem ${
+                    selected === category.name ? 'active' : ''
+                  }`}
+                  type="button"
+                  onClick={() => {
+                    if (isRangos) {
+                      setRangosOpen(prev => !prev);
+                      selectCategory(category);
+                      goToCategory(category);
+                    } else {
+                      goToCategory(category);
+                    }
+                  }}
+                  aria-expanded={isRangos ? rangosOpen : undefined}
+                >
+                  <span>{category.icon}</span>
+                  <span className="sidebarItemLabel">
+                    {category.name === 'Coins'
+                      ? 'Horizon Coins'
+                      : category.name}
+                  </span>
+                  {isRangos && (
+                    <span
+                      className={`sidebarArrow ${
+                        rangosOpen ? 'open' : ''
+                      }`}
+                      aria-hidden="true"
+                    >
+                      ›
                     </span>
+                  )}
+                </button>
 
-                    <span>
-                      {
-                        subcategory.name
-                      }
-                    </span>
-                  </button>
-                )
-              )}
-            </div>
-          )}
-        </div>
-      );
-    })}
+                {isRangos && rangosOpen && (
+                  <div className="sidebarSubcategories">
+                    {category.subcategories.map(subcategory => (
+                      <button
+                        key={subcategory.name}
+                        className={`sidebarSubItem ${
+                          selected === category.name &&
+                          sub === subcategory.name
+                            ? 'active'
+                            : ''
+                        }`}
+                        type="button"
+                        onClick={() => {
+                          setSelected(category.name);
+                          setSub(subcategory.name);
+                          window.requestAnimationFrame(() => {
+                            document
+                              .getElementById('tienda')
+                              ?.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                              });
+                          });
+                        }}
+                      >
+                        <span className="sidebarSubDot">•</span>
+                        <span>{subcategory.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           <button
             className={`sidebarItem ${selected === 'Antes de comprar' ? 'active' : ''}`}
