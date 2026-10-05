@@ -131,7 +131,7 @@ const categories = [
             name: 'DIVINO',
             icon: '✨',
             price: PRODUCT_PRICES.divino,
-            desc: 'El rango premium DIVINO con ventajas exclusivas.'
+            desc: 'Rango premium DIVINO con ventajas exclusivas.'
           }
         ]
       }
