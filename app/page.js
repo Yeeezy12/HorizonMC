@@ -30,35 +30,35 @@ const categories = [
           },
           {
             id: 'comando-fly-1-mes',
-            name: '/fly · 1 mes',
+            name: '/fly (1 mes)',
             icon: '🪽',
             price: 6,
             desc: 'Acceso al comando /fly durante 1 mes.'
           },
           {
             id: 'comando-hack-permanente',
-            name: '/hack permanente',
+            name: '/hat permanente',
             icon: '⚡',
             price: 5,
             desc: 'Acceso permanente al comando /hack.'
           },
           {
             id: 'comando-school-permanente',
-            name: '/school permanente',
+            name: '/skull permanente',
             icon: '📚',
             price: 6,
             desc: 'Acceso permanente al comando /school.'
           },
           {
             id: 'comando-inse-permanente',
-            name: '/inse permanente',
+            name: '/invsee permanente',
             icon: '✨',
             price: 7,
             desc: 'Acceso permanente al comando /inse.'
           },
           {
             id: 'fly-permanente',
-            name: 'Fly permanente',
+            name: '/fly permanente',
             icon: '🪽',
             price: 18,
             desc: 'Acceso permanente a Fly.'
@@ -410,14 +410,14 @@ const categories = [
           },
           {
             id: 'desvaneo-discord',
-            name: 'Desvaneo de Discord',
+            name: 'Desbaneo de Discord',
             icon: '💬',
             price: 17,
             desc: 'Servicio de desvaneo de Discord.'
           },
           {
             id: 'desvaneo-total',
-            name: 'Desvaneo total',
+            name: 'Desbaneo total',
             icon: '🔓',
             price: 30,
             desc: 'Servicio de desvaneo total.'
