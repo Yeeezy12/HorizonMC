@@ -18,7 +18,7 @@ const categories = [
     name: 'Survival 1.21.11',
     icon: '⛏️',
     subcategories: [
-    {
+      {
         name: 'Dinero',
         products: [
           {
@@ -33,10 +33,10 @@ const categories = [
             name: '250.000',
             icon: '💰',
             price: 8,
-           desc: '250.000 de dinero para gastar en Survival.'
+            desc: '250.000 de dinero para gastar en Survival.'
           },
           {
-           id: 'dinero-500000',
+            id: 'dinero-500000',
             name: '500.000',
             icon: '💰',
             price: 16,
