@@ -320,19 +320,25 @@ export default function Home() {
   const [selected, setSelected] = useState('Inicio');
   const [sub, setSub] = useState('Rangos Básicos');
   const [rangosOpen, setRangosOpen] = useState(false);
+
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
+
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [accountOpen, setAccountOpen] = useState(false);
   const [user, setUser] = useState(null);
+
   const [authError, setAuthError] = useState('');
   const [authMessage, setAuthMessage] = useState('');
+
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [customerEmail, setCustomerEmail] = useState('');
+
   const [paymentError, setPaymentError] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentResult, setPaymentResult] = useState('');
+
   const [infoProduct, setInfoProduct] = useState(null);
   const [monthLabel, setMonthLabel] = useState('');
 
@@ -342,7 +348,9 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const savedUser = localStorage.getItem('horizonmc_current_user');
+      const savedUser = localStorage.getItem(
+        'horizonmc_current_user'
+      );
 
       if (savedUser) {
         setUser(JSON.parse(savedUser));
@@ -352,7 +360,9 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const savedUser = localStorage.getItem('horizonmc_current_user');
+      const savedUser = localStorage.getItem(
+        'horizonmc_current_user'
+      );
 
       if (savedUser) {
         const parsedUser = JSON.parse(savedUser);
@@ -367,11 +377,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tip4servStatus = params.get('tip4serv');
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    const tip4servStatus =
+      params.get('tip4serv');
 
     if (tip4servStatus === 'cancelled') {
-      setPaymentError('Has cancelado el pago.');
+      setPaymentError(
+        'Has cancelado el pago.'
+      );
+
       setCheckoutOpen(true);
 
       window.history.replaceState(
@@ -422,7 +439,9 @@ export default function Home() {
     setAuthError('');
     setAuthMessage('');
 
-    const form = new FormData(e.currentTarget);
+    const form = new FormData(
+      e.currentTarget
+    );
 
     const identifier = String(
       form.get('username') || ''
@@ -443,12 +462,17 @@ export default function Home() {
       !password ||
       (authMode === 'register' && !email)
     ) {
-      setAuthError('Completa todos los campos.');
+      setAuthError(
+        'Completa todos los campos.'
+      );
+
       return;
     }
 
     const accounts = JSON.parse(
-      localStorage.getItem('horizonmc_accounts') || '[]'
+      localStorage.getItem(
+        'horizonmc_accounts'
+      ) || '[]'
     );
 
     if (authMode === 'register') {
@@ -532,12 +556,14 @@ export default function Home() {
       return;
     }
 
-    const loginIdentifier = username.toLowerCase();
+    const loginIdentifier =
+      username.toLowerCase();
 
     const found = accounts.find(
       a =>
         (
-          a.username.toLowerCase() === loginIdentifier ||
+          a.username.toLowerCase() ===
+            loginIdentifier ||
           a.email === loginIdentifier
         ) &&
         a.password === password
@@ -562,7 +588,9 @@ export default function Home() {
     );
 
     setUser(loggedUser);
-    setCustomerEmail(loggedUser.email);
+    setCustomerEmail(
+      loggedUser.email
+    );
     setAuthOpen(false);
   }
 
@@ -591,6 +619,7 @@ export default function Home() {
 
   function selectCategory(category) {
     setSelected(category.name);
+
     setSub(
       category.subcategories[0].name
     );
@@ -599,11 +628,13 @@ export default function Home() {
   function goToCategory(category) {
     selectCategory(category);
 
-    window.requestAnimationFrame(() => {
-      document.getElementById('tienda')?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+    setRangosOpen(
+      category.name === 'Rangos'
+    );
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
     });
   }
 
@@ -655,7 +686,8 @@ export default function Home() {
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type':
+              'application/json'
           },
           body: JSON.stringify({
             cart: cart.map(p => ({
@@ -756,7 +788,9 @@ export default function Home() {
 
           <button
             className="cartBtn"
-            onClick={() => setOpen(true)}
+            onClick={() =>
+              setOpen(true)
+            }
           >
             🛒 Carrito{' '}
             <b>{cart.length}</b>
@@ -775,7 +809,9 @@ export default function Home() {
 
           <div>
             <strong>HORIZONMC</strong>
-            <small>Tienda oficial</small>
+            <small>
+              Tienda oficial
+            </small>
           </div>
         </div>
 
@@ -795,13 +831,9 @@ export default function Home() {
               setSelected('Inicio');
               setRangosOpen(false);
 
-              window.requestAnimationFrame(() => {
-                document
-                  .getElementById('inicio')
-                  ?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                  });
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
               });
             }}
           >
@@ -824,7 +856,8 @@ export default function Home() {
               >
                 <button
                   className={`sidebarItem ${
-                    selected === category.name
+                    selected ===
+                    category.name
                       ? 'active'
                       : ''
                   }`}
@@ -833,10 +866,6 @@ export default function Home() {
                     if (isRangos) {
                       setRangosOpen(
                         prev => !prev
-                      );
-
-                      selectCategory(
-                        category
                       );
 
                       goToCategory(
@@ -859,7 +888,8 @@ export default function Home() {
                   </span>
 
                   <span className="sidebarItemLabel">
-                    {category.name === 'Coins'
+                    {category.name ===
+                    'Coins'
                       ? 'Horizon Coins'
                       : category.name}
                   </span>
@@ -905,18 +935,15 @@ export default function Home() {
                                 subcategory.name
                               );
 
-                              window.requestAnimationFrame(
-                                () => {
-                                  document
-                                    .getElementById(
-                                      'tienda'
-                                    )
-                                    ?.scrollIntoView({
-                                      behavior:
-                                        'smooth',
-                                      block:
-                                        'start'
-                                    });
+                              setRangosOpen(
+                                true
+                              );
+
+                              window.scrollTo(
+                                {
+                                  top: 0,
+                                  behavior:
+                                    'smooth'
                                 }
                               );
                             }}
@@ -940,21 +967,30 @@ export default function Home() {
           })}
 
           <button
-            className="sidebarItem"
+            className={`sidebarItem ${
+              selected ===
+              'Antes de comprar'
+                ? 'active'
+                : ''
+            }`}
             type="button"
-            onClick={() =>
-              document
-                .getElementById(
-                  'antes-de-comprar'
-                )
-                ?.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start'
-                })
-            }
+            onClick={() => {
+              setSelected(
+                'Antes de comprar'
+              );
+
+              setRangosOpen(false);
+
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }}
           >
             <span>📋</span>
-            <span>Antes de comprar</span>
+            <span>
+              Antes de comprar
+            </span>
           </button>
         </div>
 
@@ -963,7 +999,10 @@ export default function Home() {
             <span>🏆</span>
 
             <div>
-              <small>MÁXIMO DONADOR</small>
+              <small>
+                MÁXIMO DONADOR
+              </small>
+
               <strong>
                 {MAX_DONOR_NAME}
               </strong>
@@ -974,7 +1013,10 @@ export default function Home() {
             <span>⚠️</span>
 
             <div>
-              <small>AVISO PREMIUM</small>
+              <small>
+                AVISO PREMIUM
+              </small>
+
               <strong>
                 Usa /premium
               </strong>
@@ -984,549 +1026,493 @@ export default function Home() {
       </aside>
 
       <div className="pageWithSidebar">
-        <section
-          id="inicio"
-          className="homeIntro"
-        >
-          <div className="homeIntroGlow"></div>
+        {selected === 'Inicio' && (
+          <section
+            id="inicio"
+            className="homeIntro standalonePage"
+          >
+            <div className="homeIntroGlow"></div>
 
-          <div className="homeIntroInner">
-            <div className="welcomeCopy">
-              <div className="pill">
-                ✦ TIENDA OFICIAL DE HORIZONMC
+            <div className="homeIntroInner">
+              <div className="welcomeCopy">
+                <div className="pill">
+                  ✦ TIENDA OFICIAL DE
+                  HORIZONMC
+                </div>
+
+                <h1>
+                  Bienvenido a la tienda
+                  oficial de{' '}
+                  <em>
+                    HorizonMC.
+                  </em>
+                </h1>
+
+                <p className="welcomeLead">
+                  Aquí podrás adquirir
+                  artículos para mejorar
+                  tu experiencia dentro
+                  del servidor. Ofrecemos
+                  rangos y ventajas
+                  globales y por
+                  modalidades.
+                </p>
+
+                <p className="welcomeLead">
+                  Elige una categoría
+                  desde el menú lateral
+                  para entrar directamente
+                  en su página.
+                </p>
+
+                <button
+                  className="primary"
+                  type="button"
+                  onClick={() => {
+                    const category =
+                      categories.find(
+                        c =>
+                          c.name ===
+                          'Rangos'
+                      );
+
+                    if (category) {
+                      goToCategory(
+                        category
+                      );
+                    }
+                  }}
+                >
+                  Ver tienda{' '}
+                  <span>→</span>
+                </button>
               </div>
 
-              <h1>
-                Bienvenido a la tienda oficial de{' '}
-                <em>HorizonMC.</em>
-              </h1>
+              <div className="welcomeVisual creatorCard">
+                <div
+                  className="welcomeOrb creatorOrb"
+                  aria-hidden="true"
+                >
+                  👑
+                </div>
 
-              <p className="welcomeLead">
-                Aquí podrás adquirir artículos
-                para mejorar tu experiencia
-                dentro del servidor.
-                Ofrecemos rangos y ventajas
-                globales y por modalidades.
-              </p>
+                <span className="creatorLabel">
+                  CREADOR
+                </span>
 
-              <p className="welcomeLead">
-                Puedes elegir la categoría
-                del producto que desees desde
-                el menú de la parte superior.
-              </p>
+                <span className="creatorName">
+                  Yeezy
+                </span>
 
-              <a
-                className="primary"
-                href="#tienda"
-              >
-                Ver tienda{' '}
-                <span>→</span>
-              </a>
-            </div>
-
-            <div className="welcomeVisual creatorCard">
-              <div
-                className="welcomeOrb creatorOrb"
-                aria-hidden="true"
-              >
-                👑
+                <div className="skinFrame">
+                  <img
+                    src="/creator-skin.png"
+                    alt="Skin del creador de HorizonMC"
+                  />
+                </div>
               </div>
 
-              <span className="creatorLabel">
-                CREADOR
-              </span>
+              <div className="homePanels">
+                <article className="homePanel warningPanel">
+                  <div className="panelIcon">
+                    !
+                  </div>
 
-              <span className="creatorName">
-                Yeezy
-              </span>
+                  <div>
+                    <span className="panelEyebrow">
+                      IMPORTANTE
+                    </span>
 
-              <div className="skinFrame">
-                <img
-                  src="/creator-skin.png"
-                  alt="Skin del creador de HorizonMC"
-                />
+                    <h2>
+                      Estás en la tienda
+                      oficial de
+                      HorizonMC
+                    </h2>
+
+                    <p>
+                      Asegúrate de que
+                      estás comprando en
+                      la tienda correcta.
+                      No realizamos
+                      reembolsos por
+                      compras realizadas
+                      en una tienda
+                      equivocada.
+                    </p>
+                  </div>
+                </article>
+
+                <article className="homePanel premiumPanel">
+                  <div className="panelIcon">
+                    ✓
+                  </div>
+
+                  <div>
+                    <span className="panelEyebrow">
+                      IMPORTANTE PARA
+                      PREMIUM
+                    </span>
+
+                    <h2>
+                      Si eres Premium,
+                      usa /premium antes
+                      de comprar
+                    </h2>
+
+                    <p>
+                      Por seguridad,
+                      asegúrate de tener
+                      puesto el comando{' '}
+                      <strong>
+                        /premium
+                      </strong>{' '}
+                      en el servidor
+                      antes de realizar
+                      tu compra.
+                    </p>
+                  </div>
+                </article>
+
+                <article className="homePanel donorPanel">
+                  <div className="donorCrown">
+                    🏆
+                  </div>
+
+                  <div>
+                    <span className="panelEyebrow">
+                      MÁXIMO DONADOR
+                    </span>
+
+                    <h2>
+                      {MAX_DONOR_NAME}
+                    </h2>
+
+                    <p>
+                      Fue quien más donó
+                      durante{' '}
+                      <strong>
+                        {monthLabel ||
+                          'este mes'}
+                      </strong>
+                      .
+                    </p>
+
+                    <small>
+                      El periodo se actualiza
+                      cada mes.
+                    </small>
+                  </div>
+                </article>
               </div>
             </div>
+          </section>
+        )}
 
-            <div className="homePanels">
-              <article className="homePanel warningPanel">
-                <div className="panelIcon">
-                  !
-                </div>
-
-                <div>
-                  <span className="panelEyebrow">
-                    IMPORTANTE
-                  </span>
-
-                  <h2>
-                    Estás en la tienda oficial
-                    de HorizonMC
-                  </h2>
-
-                  <p>
-                    Asegúrate de que estás
-                    comprando en la tienda correcta.
-                    No realizamos reembolsos por
-                    compras realizadas en una
-                    tienda equivocada.
-                  </p>
-                </div>
-              </article>
-
-              <article className="homePanel premiumPanel">
-                <div className="panelIcon">
-                  ✓
-                </div>
-
-                <div>
-                  <span className="panelEyebrow">
-                    IMPORTANTE PARA PREMIUM
-                  </span>
-
-                  <h2>
-                    Si eres Premium, usa
-                    /premium antes de comprar
-                  </h2>
-
-                  <p>
-                    Por seguridad, asegúrate
-                    de tener puesto el comando{' '}
-                    <strong>
-                      /premium
-                    </strong>{' '}
-                    en el servidor antes de
-                    realizar tu compra.
-                  </p>
-                </div>
-              </article>
-
-              <article className="homePanel donorPanel">
-                <div className="donorCrown">
-                  🏆
-                </div>
-
-                <div>
-                  <span className="panelEyebrow">
-                    MÁXIMO DONADOR
-                  </span>
-
-                  <h2>
-                    {MAX_DONOR_NAME}
-                  </h2>
-
-                  <p>
-                    Fue quien más donó durante{' '}
-                    <strong>
-                      {monthLabel ||
-                        'este mes'}
-                    </strong>
-                    .
-                  </p>
-
-                  <small>
-                    El periodo se actualiza
-                    cada mes.
-                  </small>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="antes-de-comprar"
-          className="beforeBuy"
-        >
-          <div className="beforeBuyInner">
-            <div className="eyebrow">
-              ANTES DE COMPRAR
-            </div>
-
-            <h2>
-              ¿Eres padre y tienes dudas
-              sobre lo que tu hij@ quiere
-              adquirir?
-            </h2>
-
-            <p className="beforeLead">
-              En nuestra tienda encontrarás
-              únicamente artículos digitales
-              que serán obtenidos dentro del
-              servidor de HorizonMC.
-              Con estos artículos tu hij@
-              puede disfrutar y utilizarlos
-              mientras juega. También tendrá
-              acceso prioritario (con la compra
-              de un rango) a la hora de
-              conectarse al servidor si este
-              está lleno o, por ejemplo,
-              tendrá su nombre remarcado en
-              colores, lo que le hará destacar
-              frente a otros jugadores.
-            </p>
-
-            <div className="beforeBuyNotice">
-              <h3>
-                Información importante
-                antes de comprar
-              </h3>
-
-              <ul>
-                <li>
-                  Todas las compras realizadas
-                  en esta tienda de HorizonMC
-                  están bajo la regulación de
-                  Tip4Serv. Al comprar,
-                  aceptas sus términos y
-                  condiciones. Revísalos antes
-                  de comprar nada.
-                </li>
-
-                <li>
-                  Al realizar una compra de
-                  objetos, asegúrate de tener
-                  el <strong>
-                    inventario vacío
-                  </strong>{' '}
-                  para no perder ningún ítem.
-                  En caso de pérdida o muerte
-                  dentro del juego, HorizonMC
-                  no se hace responsable.
-                </li>
-
-                <li>
-                  Los rangos son{' '}
-                  <strong>
-                    personales e intransferibles
-                  </strong>.
-                </li>
-              </ul>
-            </div>
-
-            <div className="beforeBuySupport">
-              <h3>
-                ¿No has recibido tu artículo?
-              </h3>
-
-              <p>
-                En caso de no recibir el
-                artículo solicitado en un plazo{' '}
-                <strong>
-                  máximo de 24 horas
-                </strong>
-                , contacta con el equipo de
-                HorizonMC a través de nuestro
-                Discord.
-              </p>
-
-              <a
-                className="discordButton"
-                href={DISCORD_URL}
-              >
-                Abrir Discord{' '}
-                <span>↗</span>
-              </a>
-            </div>
-
-            <div className="refundBox">
+        {selected ===
+          'Antes de comprar' && (
+          <section
+            id="antes-de-comprar"
+            className="beforeBuy standalonePage"
+          >
+            <div className="beforeBuyInner">
               <div className="eyebrow">
-                REEMBOLSO DE PRODUCTOS
+                ANTES DE COMPRAR
               </div>
 
-              <h3>
-                Política de reembolsos
-              </h3>
+              <h2>
+                ¿Eres padre y tienes
+                dudas sobre lo que tu
+                hij@ quiere adquirir?
+              </h2>
 
-              <p>
-                Los productos de nuestra tienda
-                no son reembolsables, bajo las
-                políticas y leyes establecidas
-                por Tip4Serv. Esto se debe a las
-                características únicas de las
-                transacciones digitales, donde
-                los bienes y servicios se consumen
-                instantáneamente y no pueden
-                devolverse en las mismas condiciones
-                que los artículos físicos.
-                Los productos que incluyan monedas
-                o cualquier objeto virtual{' '}
-                <strong>
-                  no son aptos para reembolso
-                  bajo ningún concepto
-                </strong>.
+              <p className="beforeLead">
+                En nuestra tienda
+                encontrarás únicamente
+                artículos digitales que
+                serán obtenidos dentro
+                del servidor de
+                HorizonMC. Con estos
+                artículos tu hij@ puede
+                disfrutar y utilizarlos
+                mientras juega. También
+                tendrá acceso prioritario
+                (con la compra de un
+                rango) a la hora de
+                conectarse al servidor
+                si este está lleno o,
+                por ejemplo, tendrá su
+                nombre remarcado en
+                colores, lo que le hará
+                destacar frente a otros
+                jugadores.
               </p>
 
-              <p>
-                En casos{' '}
-                <strong>
-                  muy excepcionales
-                </strong>
-                , se podrá emitir el reembolso
-                de una compra si el propietario
-                del servidor/tienda o los
-                encargados responsables lo
-                deciden y aprueban en consenso
-                tras supervisar el caso.
-                Esto podrá suceder principalmente
-                cuando se produzca un fallo en la
-                entrega de la compra.
-              </p>
-
-              <p>
-                <strong>
-                  No admitimos reembolsos
-                </strong>{' '}
-                de nuestros productos si el
-                motivo es un baneo por incumplir
-                nuestros términos de servicio
-                y/o las normas de nuestro servidor
-                o tienda.
-              </p>
-            </div>
-
-            <a
-              className="backHomeButton"
-              href="#inicio"
-              onClick={() => {
-                setSelected('Inicio');
-                setRangosOpen(false);
-              }}
-            >
-              Volver a la página principal
-            </a>
-          </div>
-        </section>
-
-        <section
-          id="tienda"
-          className="shop"
-        >
-          <div className="currentTitle">
-            <div className="eyebrow">
-              {selected.toUpperCase()}
-            </div>
-
-            <h3>
-              {currentSub.name}
-            </h3>
-          </div>
-
-          <div className="grid">
-            {products.map(p => (
-              <article
-                className="product"
-                key={p.id}
-              >
-                <div className="productIcon">
-                  {p.icon}
-                </div>
-
+              <div className="beforeBuyNotice">
                 <h3>
-                  {p.name}
+                  Información importante
+                  antes de comprar
+                </h3>
+
+                <ul>
+                  <li>
+                    Todas las compras
+                    realizadas en esta
+                    tienda de HorizonMC
+                    están bajo la regulación
+                    de Tip4Serv. Al comprar,
+                    aceptas sus términos y
+                    condiciones. Revísalos
+                    antes de comprar nada.
+                  </li>
+
+                  <li>
+                    Al realizar una compra
+                    de objetos, asegúrate
+                    de tener el{' '}
+                    <strong>
+                      inventario vacío
+                    </strong>{' '}
+                    para no perder ningún
+                    ítem. En caso de pérdida
+                    o muerte dentro del juego,
+                    HorizonMC no se hace
+                    responsable.
+                  </li>
+
+                  <li>
+                    Los rangos son{' '}
+                    <strong>
+                      personales e
+                      intransferibles
+                    </strong>.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="beforeBuySupport">
+                <h3>
+                  ¿No has recibido tu
+                  artículo?
                 </h3>
 
                 <p>
-                  {p.desc}
+                  En caso de no recibir
+                  el artículo solicitado
+                  en un plazo{' '}
+                  <strong>
+                    máximo de 24 horas
+                  </strong>
+                  , contacta con el equipo
+                  de HorizonMC a través de
+                  nuestro Discord.
                 </p>
 
-                <div className="buyRow">
-                  <strong>
-                    {typeof p.price === 'number'
-                      ? `${p.price.toFixed(2)} €`
-                      : 'Precio pendiente'}
-                  </strong>
+                <a
+                  className="discordButton"
+                  href={DISCORD_URL}
+                >
+                  Abrir Discord{' '}
+                  <span>↗</span>
+                </a>
+              </div>
 
-                  <div className="productActions">
-                    <button
-                      className="infoButton"
-                      aria-label={`Información sobre ${p.name}`}
-                      onClick={() =>
-                        setInfoProduct(p)
-                      }
-                    >
-                      !
-                    </button>
-
-                    <button
-                      className="addButton"
-                      aria-label={`Añadir ${p.name} al carrito`}
-                      onClick={() =>
-                        add(p)
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
+              <div className="refundBox">
+                <div className="eyebrow">
+                  REEMBOLSO DE PRODUCTOS
                 </div>
-              </article>
-            ))}
-          </div>
-        </section>
 
-        <section
-          id="como"
-          className="faq"
-        >
-          <div className="eyebrow">
-            CÓMO FUNCIONA
-          </div>
+                <h3>
+                  Política de reembolsos
+                </h3>
 
-          <h2>
-            Compra y recibe tus productos
-          </h2>
+                <p>
+                  Los productos de nuestra
+                  tienda no son reembolsables,
+                  bajo las políticas y leyes
+                  establecidas por Tip4Serv.
+                  Esto se debe a las
+                  características únicas de
+                  las transacciones digitales,
+                  donde los bienes y servicios
+                  se consumen instantáneamente
+                  y no pueden devolverse en las
+                  mismas condiciones que los
+                  artículos físicos. Los
+                  productos que incluyan
+                  monedas o cualquier objeto
+                  virtual{' '}
+                  <strong>
+                    no son aptos para reembolso
+                    bajo ningún concepto
+                  </strong>
+                  .
+                </p>
 
-          <div className="steps">
-            <div>
-              <b>01</b>
+                <p>
+                  En casos{' '}
+                  <strong>
+                    muy excepcionales
+                  </strong>
+                  , se podrá emitir el
+                  reembolso de una compra si
+                  el propietario del
+                  servidor/tienda o los
+                  encargados responsables lo
+                  deciden y aprueban en
+                  consenso tras supervisar el
+                  caso. Esto podrá suceder
+                  principalmente cuando se
+                  produzca un fallo en la
+                  entrega de la compra.
+                </p>
 
-              <h3>
-                Elige un producto
-              </h3>
-
-              <p>
-                Busca tu rango, protección,
-                spawner o Horizon Coins en
-                la categoría correspondiente.
-              </p>
+                <p>
+                  <strong>
+                    No admitimos reembolsos
+                  </strong>{' '}
+                  de nuestros productos si
+                  el motivo es un baneo por
+                  incumplir nuestros términos
+                  de servicio y/o las normas
+                  de nuestro servidor o tienda.
+                </p>
+              </div>
             </div>
+          </section>
+        )}
 
-            <div>
-              <b>02</b>
-
-              <h3>
-                Realiza el pago
-              </h3>
-
-              <p>
-                Serás enviado al checkout
-                seguro de Tip4Serv para
-                completar el pago.
-              </p>
-            </div>
-
-            <div>
-              <b>03</b>
-
-              <h3>
-                Recíbelo en Minecraft
-              </h3>
-
-              <p>
-                Tip4Serv procesa automáticamente
-                la entrega en el servidor
-                HorizonMC.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="soporte"
-          className="paymentsInfo"
-        >
-          <div className="paymentsIntro">
-            <div className="eyebrow">
-              PAGOS SEGUROS
-            </div>
-
-            <h2>
-              Atención al cliente / Soporte
-            </h2>
-
-            <p>
-              Los pagos se completarán de forma
-              segura y serán gestionados por
-              HorizonMC. Los métodos de pago
-              disponibles pueden variar según
-              tu país.
-            </p>
-
-            <a
-              className="supportLink"
-              href="#soporte"
+        {selected !== 'Inicio' &&
+          selected !==
+            'Antes de comprar' &&
+          currentCategory && (
+            <section
+              id="tienda"
+              className="shop standaloneShopPage"
             >
-              Discord del soporte{' '}
-              <span>→</span>
-            </a>
-          </div>
+              <div className="shopPageHeader">
+                <div className="eyebrow">
+                  {currentCategory.icon}{' '}
+                  {currentCategory.name.toUpperCase()}
+                </div>
 
-          <div className="paymentsMethods">
-            <div className="paymentHeading">
-              <strong>
-                Métodos de pago
-              </strong>
+                <h1>
+                  {currentCategory.name}
+                </h1>
 
-              <span>
-                Más de 40 métodos de pago
-                disponibles
-              </span>
-            </div>
-
-            <p className="paymentDescription">
-              Las tarjetas de crédito y débito
-              se gestionan de forma global.
-              Aquí tienes algunos de los
-              principales métodos disponibles
-              actualmente.
-            </p>
-
-            <div className="paymentCards">
-              <div className="paymentCard">
-                <span className="visaLogo">
-                  VISA
-                </span>
-
-                <small>
-                  Tarjeta
-                </small>
+                <p>
+                  Selecciona una
+                  subcategoría y encuentra
+                  los productos disponibles.
+                </p>
               </div>
 
-              <div className="paymentCard">
-                <span className="masterLogo">
-                  <i></i>
-                  <i></i>
-                </span>
+              {currentCategory
+                .subcategories.length >
+                1 && (
+                <div className="categoryTabs">
+                  {currentCategory.subcategories.map(
+                    subcategory => (
+                      <button
+                        key={
+                          subcategory.name
+                        }
+                        type="button"
+                        className={`categoryTab ${
+                          sub ===
+                          subcategory.name
+                            ? 'active'
+                            : ''
+                        }`}
+                        onClick={() => {
+                          setSub(
+                            subcategory.name
+                          );
 
-                <small>
-                  Mastercard
-                </small>
+                          window.scrollTo(
+                            {
+                              top: 0,
+                              behavior:
+                                'smooth'
+                            }
+                          );
+                        }}
+                      >
+                        {
+                          subcategory.name
+                        }
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
+
+              <div className="currentTitle">
+                <div className="eyebrow">
+                  CATEGORÍA
+                </div>
+
+                <h3>
+                  {currentSub.name}
+                </h3>
               </div>
 
-              <div className="paymentCard amexCard">
-                <span>
-                  AMERICAN EXPRESS
-                </span>
+              <div className="grid">
+                {products.map(p => (
+                  <article
+                    className="product"
+                    key={p.id}
+                  >
+                    <div className="productIcon">
+                      {p.icon}
+                    </div>
 
-                <small>
-                  Tarjeta
-                </small>
+                    <h3>
+                      {p.name}
+                    </h3>
+
+                    <p>
+                      {p.desc}
+                    </p>
+
+                    <div className="buyRow">
+                      <strong>
+                        {typeof p.price ===
+                        'number'
+                          ? `${p.price.toFixed(
+                              2
+                            )} €`
+                          : 'Precio pendiente'}
+                      </strong>
+
+                      <div className="productActions">
+                        <button
+                          className="infoButton"
+                          aria-label={`Información sobre ${p.name}`}
+                          onClick={() =>
+                            setInfoProduct(
+                              p
+                            )
+                          }
+                        >
+                          !
+                        </button>
+
+                        <button
+                          className="addButton"
+                          aria-label={`Añadir ${p.name} al carrito`}
+                          onClick={() =>
+                            add(p)
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
-
-              <div className="paymentCard paypalCard">
-                <span className="paypalLogo">
-                  P
-                </span>
-
-                <small>
-                  PayPal
-                </small>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer>
-          <div className="logo">
-            <span>H</span> HORIZON
-            <span>MC</span>
-          </div>
-
-          <p>
-            © 2026 HorizonMC.
-            Todos los derechos reservados.
-          </p>
-        </footer>
+            </section>
+          )}
       </div>
 
       {authOpen && (
@@ -1582,7 +1568,8 @@ export default function Home() {
                 />
               </label>
 
-              {authMode === 'register' && (
+              {authMode ===
+                'register' && (
                 <label>
                   Correo electrónico
 
@@ -1595,7 +1582,8 @@ export default function Home() {
                 </label>
               )}
 
-              {authMode === 'login' && (
+              {authMode ===
+                'login' && (
                 <input
                   name="email"
                   type="hidden"
@@ -1611,7 +1599,8 @@ export default function Home() {
                   name="password"
                   type="password"
                   autoComplete={
-                    authMode === 'login'
+                    authMode ===
+                    'login'
                       ? 'current-password'
                       : 'new-password'
                   }
@@ -1646,7 +1635,9 @@ export default function Home() {
                 <>
                   ¿No tienes cuenta?{' '}
                   <button
-                    onClick={openRegister}
+                    onClick={
+                      openRegister
+                    }
                   >
                     Crear cuenta
                   </button>
@@ -1655,7 +1646,9 @@ export default function Home() {
                 <>
                   ¿Ya tienes cuenta?{' '}
                   <button
-                    onClick={openLogin}
+                    onClick={
+                      openLogin
+                    }
                   >
                     Iniciar sesión
                   </button>
@@ -1778,7 +1771,9 @@ export default function Home() {
                   <strong>
                     {typeof p.price ===
                     'number'
-                      ? `${p.price.toFixed(2)} €`
+                      ? `${p.price.toFixed(
+                          2
+                        )} €`
                       : 'Precio pendiente'}
                   </strong>
                 </div>
@@ -1797,7 +1792,10 @@ export default function Home() {
                   </span>
 
                   <strong>
-                    {cartTotal.toFixed(2)} €
+                    {cartTotal.toFixed(
+                      2
+                    )}{' '}
+                    €
                   </strong>
                 </div>
 
@@ -1910,7 +1908,9 @@ export default function Home() {
                         className="removeItem"
                         aria-label={`Quitar ${p.name}`}
                         onClick={() =>
-                          removeFromCart(i)
+                          removeFromCart(
+                            i
+                          )
                         }
                       >
                         ✕
@@ -2166,8 +2166,57 @@ export default function Home() {
           padding-left: 276px;
         }
 
-        #tienda {
+        .standalonePage,
+        .standaloneShopPage {
+          min-height: calc(100vh - 96px);
           scroll-margin-top: 96px;
+        }
+
+        .standaloneShopPage {
+          padding-top: 80px;
+          padding-bottom: 100px;
+        }
+
+        .shopPageHeader {
+          max-width: 820px;
+          margin: 0 auto 30px;
+          text-align: center;
+        }
+
+        .shopPageHeader h1 {
+          margin: 8px 0 10px;
+          font-size: clamp(38px, 5vw, 64px);
+        }
+
+        .shopPageHeader p {
+          color: rgba(255, 255, 255, 0.52);
+          margin: 0;
+        }
+
+        .categoryTabs {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin: 0 auto 36px;
+        }
+
+        .categoryTab {
+          padding: 10px 15px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.04);
+          color: rgba(255, 255, 255, 0.6);
+          cursor: pointer;
+          font: inherit;
+          transition: 0.18s ease;
+        }
+
+        .categoryTab:hover,
+        .categoryTab.active {
+          color: #fff;
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.16);
         }
 
         @media (max-width: 900px) {
@@ -2207,8 +2256,13 @@ export default function Home() {
           .pageWithSidebar {
             padding-left: 0;
           }
+
+          .standaloneShopPage {
+            padding-top: 35px;
+          }
         }
-      `}</style>
+      `}
+      </style>
     </main>
   );
 }
