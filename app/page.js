@@ -19,6 +19,112 @@ const categories = [
     icon: '⛏️',
     subcategories: [
       {
+        name: 'Dinero',
+        products: [
+          {
+            id: 'dinero-100000',
+            name: '100.000',
+            icon: '💰',
+            price: 4,
+            desc: '100.000 de dinero para gastar en Survival.'
+          },
+          {
+            id: 'dinero-250000',
+            name: '250.000',
+            icon: '💰',
+            price: 8,
+            desc: '250.000 de dinero para gastar en Survival.'
+          },
+          {
+            id: 'dinero-500000',
+            name: '500.000',
+            icon: '💰',
+            price: 16,
+            desc: '500.000 de dinero para gastar en Survival.'
+          },
+          {
+            id: 'dinero-1000000',
+            name: '1.000.000',
+            icon: '💰',
+            price: 30,
+            desc: '1.000.000 de dinero para gastar en Survival.'
+          }
+        ]
+      },
+      {
+        name: 'Recolectores',
+        products: [
+          {
+            id: 'recolector-cactus',
+            name: 'Recolector de Cactus',
+            icon: '🌵',
+            price: 16,
+            desc: 'Recolector de Cactus para Survival.'
+          },
+          {
+            id: 'recolector-amatista',
+            name: 'Recolector de Amatista',
+            icon: '💎',
+            price: 19,
+            desc: 'Recolector de Amatista para Survival.'
+          },
+          {
+            id: 'recolector-hierro',
+            name: 'Recolector de Hierro',
+            icon: '⛓️',
+            price: 20,
+            desc: 'Recolector de Hierro para Survival.'
+          }
+        ]
+      },
+      {
+        name: 'Kits Premium',
+        products: [
+          {
+            id: 'kit-aereo',
+            name: 'Kit Aéreo',
+            icon: '🪽',
+            price: 14,
+            desc: 'Kit Aéreo premium para Survival.'
+          },
+          {
+            id: 'kit-spawner',
+            name: 'Kit Spawner',
+            icon: '🔥',
+            price: 50,
+            desc: 'Kit Spawner premium para Survival.'
+          },
+          {
+            id: 'kit-obrero',
+            name: 'Kit Obrero',
+            icon: '⛏️',
+            price: 25,
+            desc: 'Kit Obrero premium para Survival.'
+          },
+          {
+            id: 'kit-atlantis',
+            name: 'Kit Atlantis',
+            icon: '🌊',
+            price: 35,
+            desc: 'Kit Atlantis premium para Survival.'
+          },
+          {
+            id: 'kit-celestial',
+            name: 'Kit Celestial',
+            icon: '✨',
+            price: 50,
+            desc: 'Kit Celestial premium para Survival.'
+          },
+          {
+            id: 'kit-creador',
+            name: 'Kit Creador',
+            icon: '🎨',
+            price: 60,
+            desc: 'Kit Creador premium para Survival.'
+          }
+        ]
+      },
+      {
         name: 'Comandos',
         products: [
           {
@@ -40,21 +146,21 @@ const categories = [
             name: '/hat permanente',
             icon: '⚡',
             price: 5,
-            desc: 'Acceso permanente al comando /hack.'
+            desc: 'Acceso permanente al comando /hat.'
           },
           {
             id: 'comando-school-permanente',
             name: '/skull permanente',
             icon: '📚',
             price: 6,
-            desc: 'Acceso permanente al comando /school.'
+            desc: 'Acceso permanente al comando /skull.'
           },
           {
             id: 'comando-inse-permanente',
             name: '/invsee permanente',
             icon: '✨',
             price: 7,
-            desc: 'Acceso permanente al comando /inse.'
+            desc: 'Acceso permanente al comando /invsee.'
           },
           {
             id: 'fly-permanente',
@@ -413,14 +519,14 @@ const categories = [
             name: 'Desbaneo de Discord',
             icon: '💬',
             price: 17,
-            desc: 'Servicio de desvaneo de Discord.'
+            desc: 'Servicio de desbaneo de Discord.'
           },
           {
             id: 'desvaneo-total',
             name: 'Desbaneo total',
             icon: '🔓',
             price: 30,
-            desc: 'Servicio de desvaneo total.'
+            desc: 'Servicio de desbaneo total.'
           },
           {
             id: 'prefijo-custom',
