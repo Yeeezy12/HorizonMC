@@ -14,7 +14,7 @@ function currentMonthLabel() {
 }
 
 const categories = [
-  {
+    {
     name: 'Survival 1.21.11',
     icon: '⛏️',
     subcategories: [
