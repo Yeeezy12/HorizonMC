@@ -345,13 +345,14 @@ export default function Home() {
           </div>
 
           <div className="welcomeVisual creatorCard">
-            <div className="welcomeOrb creatorOrb" aria-hidden="true">👑</div>
-            <span className="creatorLabel">CREADOR</span>
-            <div className="skinFrame">
-              <img src="/creator-skin.png" alt="Skin del creador de HorizonMC" />
-            </div>
-          </div>
-        </div>
+           <div className="welcomeOrb creatorOrb" aria-hidden="true">👑</div>
+           <span className="creatorLabel">CREADOR</span>
+           <span className="creatorName">Yeezy</span>
+
+         <div className="skinFrame">
+            <img src="/creator-skin.png" alt="Skin del creador de HorizonMC" />
+         </div>
+       </div>
 
         <div className="homePanels">
           <article className="homePanel warningPanel">
