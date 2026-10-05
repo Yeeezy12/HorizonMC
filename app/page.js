@@ -591,6 +591,7 @@ export default function Home() {
   const [selected, setSelected] = useState('Inicio');
   const [sub, setSub] = useState('Rangos Básicos');
   const [rangosOpen, setRangosOpen] = useState(false);
+  const [survivalOpen, setSurvivalOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -868,8 +869,19 @@ export default function Home() {
 
   function goToCategory(category) {
     selectCategory(category);
-    setRangosOpen(category.name === 'Rangos');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setRangosOpen(false);
+    setSurvivalOpen(false);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
   function add(product) {
