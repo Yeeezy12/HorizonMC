@@ -98,6 +98,32 @@ const categories = [
         ]
       },
       {
+        name: 'Rangos Básicos · Temporales',
+        products: [
+          {
+            id: 'vip-temporal',
+            name: 'VIP · Temporal',
+            icon: '👑',
+            price: null,
+            desc: 'Rango VIP temporal.'
+          },
+          {
+            id: 'vipplus-temporal',
+            name: 'VIP+ · Temporal',
+            icon: '💎',
+            price: null,
+            desc: 'Rango VIP+ temporal.'
+          },
+          {
+            id: 'mvp-temporal',
+            name: 'MVP · Temporal',
+            icon: '⭐',
+            price: null,
+            desc: 'Rango MVP temporal.'
+          }
+        ]
+      },
+      {
         name: 'Rangos Avanzados',
         products: [
           {
@@ -117,6 +143,25 @@ const categories = [
         ]
       },
       {
+        name: 'Rangos Avanzados · Temporales',
+        products: [
+          {
+            id: 'nova-temporal',
+            name: 'NOVA · Temporal',
+            icon: '🌌',
+            price: null,
+            desc: 'Rango NOVA temporal.'
+          },
+          {
+            id: 'vortex-temporal',
+            name: 'VORTEX · Temporal',
+            icon: '🌀',
+            price: null,
+            desc: 'Rango VORTEX temporal.'
+          }
+        ]
+      },
+      {
         name: 'Rangos Premium',
         products: [
           {
@@ -132,6 +177,126 @@ const categories = [
             icon: '✨',
             price: PRODUCT_PRICES.divino,
             desc: 'El rango premium DIVINO con ventajas exclusivas.'
+          }
+        ]
+      },
+      {
+        name: 'Rangos Premium · Temporales',
+        products: [
+          {
+            id: 'eterno-temporal',
+            name: 'ETERNO · Temporal',
+            icon: '♾️',
+            price: null,
+            desc: 'Rango ETERNO temporal.'
+          },
+          {
+            id: 'divino-temporal',
+            name: 'DIVINO · Temporal',
+            icon: '✨',
+            price: null,
+            desc: 'Rango DIVINO temporal.'
+          }
+        ]
+      },
+      {
+        name: 'Rangos Permanentes',
+        products: [
+          {
+            id: 'vip-permanente',
+            name: 'VIP Permanente',
+            icon: '👑',
+            price: PRODUCT_PRICES.vip,
+            desc: 'Rango VIP permanente para destacar en HorizonMC.'
+          },
+          {
+            id: 'vipplus-permanente',
+            name: 'VIP+ Permanente',
+            icon: '💎',
+            price: PRODUCT_PRICES.vipplus,
+            desc: 'Rango VIP+ permanente con ventajas exclusivas.'
+          },
+          {
+            id: 'mvp-permanente',
+            name: 'MVP Permanente',
+            icon: '⭐',
+            price: PRODUCT_PRICES.mvp,
+            desc: 'Rango MVP permanente con ventajas exclusivas.'
+          },
+          {
+            id: 'nova-permanente',
+            name: 'NOVA Permanente',
+            icon: '🌌',
+            price: PRODUCT_PRICES.nova,
+            desc: 'Rango NOVA permanente para jugadores destacados.'
+          },
+          {
+            id: 'vortes-permanente',
+            name: 'VORTEX Permanente',
+            icon: '🌀',
+            price: PRODUCT_PRICES.vortes,
+            desc: 'Rango VORTEX permanente con beneficios especiales.'
+          },
+          {
+            id: 'eterno-permanente',
+            name: 'ETERNO Permanente',
+            icon: '♾️',
+            price: PRODUCT_PRICES.eterno,
+            desc: 'Rango ETERNO permanente para los jugadores más exclusivos.'
+          },
+          {
+            id: 'divino-permanente',
+            name: 'DIVINO Permanente',
+            icon: '✨',
+            price: PRODUCT_PRICES.divino,
+            desc: 'El rango DIVINO permanente con ventajas exclusivas.'
+          }
+        ]
+      },
+      {
+        name: 'Ascenso de rango',
+        products: [
+          {
+            id: 'ascenso-vip-vipplus',
+            name: 'VIP → VIP+',
+            icon: '⬆️',
+            price: 5,
+            desc: 'Asciende tu rango de VIP a VIP+ pagando únicamente la diferencia.'
+          },
+          {
+            id: 'ascenso-vipplus-mvp',
+            name: 'VIP+ → MVP',
+            icon: '⬆️',
+            price: 5,
+            desc: 'Asciende tu rango de VIP+ a MVP pagando únicamente la diferencia.'
+          },
+          {
+            id: 'ascenso-mvp-nova',
+            name: 'MVP → NOVA',
+            icon: '⬆️',
+            price: 10,
+            desc: 'Asciende tu rango de MVP a NOVA pagando únicamente la diferencia.'
+          },
+          {
+            id: 'ascenso-nova-vortex',
+            name: 'NOVA → VORTEX',
+            icon: '⬆️',
+            price: 10,
+            desc: 'Asciende tu rango de NOVA a VORTEX pagando únicamente la diferencia.'
+          },
+          {
+            id: 'ascenso-vortex-eterno',
+            name: 'VORTEX → ETERNO',
+            icon: '⬆️',
+            price: 15,
+            desc: 'Asciende tu rango de VORTEX a ETERNO pagando únicamente la diferencia.'
+          },
+          {
+            id: 'ascenso-eterno-divino',
+            name: 'ETERNO → DIVINO',
+            icon: '⬆️',
+            price: 15,
+            desc: 'Asciende tu rango de ETERNO a DIVINO pagando únicamente la diferencia.'
           }
         ]
       }
