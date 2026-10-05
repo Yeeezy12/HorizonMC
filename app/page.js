@@ -317,9 +317,9 @@ const categories = [
 ];
 
 export default function Home() {
-  const [selected, setSelected] = useState('Rangos');
+  const [selected, setSelected] = useState('Inicio');
   const [sub, setSub] = useState('Rangos Básicos');
-  const [rangosOpen, setRangosOpen] = useState(true);
+  const [rangosOpen, setRangosOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -522,6 +522,7 @@ export default function Home() {
       });
 
       setCustomerEmail(email);
+
       setAuthMessage(
         'Cuenta creada correctamente.'
       );
@@ -577,7 +578,7 @@ export default function Home() {
   const currentCategory =
     categories.find(
       c => c.name === selected
-    );
+    ) || categories[0];
 
   const currentSub =
     currentCategory.subcategories.find(
@@ -597,6 +598,7 @@ export default function Home() {
 
   function goToCategory(category) {
     selectCategory(category);
+
     window.requestAnimationFrame(() => {
       document.getElementById('tienda')?.scrollIntoView({
         behavior: 'smooth',
@@ -762,9 +764,15 @@ export default function Home() {
         </div>
       </header>
 
-      <aside className="horizonSidebar" aria-label="Navegación de la tienda">
+      <aside
+        className="horizonSidebar"
+        aria-label="Navegación de la tienda"
+      >
         <div className="sidebarBrand">
-          <span className="sidebarBrandMark">H</span>
+          <span className="sidebarBrandMark">
+            H
+          </span>
+
           <div>
             <strong>HORIZONMC</strong>
             <small>Tienda oficial</small>
@@ -772,56 +780,96 @@ export default function Home() {
         </div>
 
         <div className="sidebarSection">
-          <span className="sidebarLabel">NAVEGACIÓN</span>
+          <span className="sidebarLabel">
+            NAVEGACIÓN
+          </span>
 
           <button
-            className="sidebarItem"
+            className={`sidebarItem ${
+              selected === 'Inicio'
+                ? 'active'
+                : ''
+            }`}
             type="button"
-            onClick={() =>
-              document.getElementById('inicio')?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-              })
-            }
+            onClick={() => {
+              setSelected('Inicio');
+              setRangosOpen(false);
+
+              window.requestAnimationFrame(() => {
+                document
+                  .getElementById('inicio')
+                  ?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+              });
+            }}
           >
             <span>🏠</span>
             <span>Inicio</span>
           </button>
 
           {categories.map(category => {
-            const isRangos = category.name === 'Rangos';
+            const isRangos =
+              category.name === 'Rangos';
 
             return (
               <div
                 key={category.name}
-                className={isRangos ? 'sidebarCategoryGroup' : ''}
+                className={
+                  isRangos
+                    ? 'sidebarCategoryGroup'
+                    : ''
+                }
               >
                 <button
                   className={`sidebarItem ${
-                    selected === category.name ? 'active' : ''
+                    selected === category.name
+                      ? 'active'
+                      : ''
                   }`}
                   type="button"
                   onClick={() => {
                     if (isRangos) {
-                      setRangosOpen(prev => !prev);
-                      selectCategory(category);
-                      goToCategory(category);
+                      setRangosOpen(
+                        prev => !prev
+                      );
+
+                      selectCategory(
+                        category
+                      );
+
+                      goToCategory(
+                        category
+                      );
                     } else {
-                      goToCategory(category);
+                      goToCategory(
+                        category
+                      );
                     }
                   }}
-                  aria-expanded={isRangos ? rangosOpen : undefined}
+                  aria-expanded={
+                    isRangos
+                      ? rangosOpen
+                      : undefined
+                  }
                 >
-                  <span>{category.icon}</span>
+                  <span>
+                    {category.icon}
+                  </span>
+
                   <span className="sidebarItemLabel">
                     {category.name === 'Coins'
                       ? 'Horizon Coins'
                       : category.name}
                   </span>
+
                   {isRangos && (
                     <span
                       className={`sidebarArrow ${
-                        rangosOpen ? 'open' : ''
+                        rangosOpen
+                          ? 'open'
+                          : ''
                       }`}
                       aria-hidden="true"
                     >
@@ -830,37 +878,63 @@ export default function Home() {
                   )}
                 </button>
 
-                {isRangos && rangosOpen && (
-                  <div className="sidebarSubcategories">
-                    {category.subcategories.map(subcategory => (
-                      <button
-                        key={subcategory.name}
-                        className={`sidebarSubItem ${
-                          selected === category.name &&
-                          sub === subcategory.name
-                            ? 'active'
-                            : ''
-                        }`}
-                        type="button"
-                        onClick={() => {
-                          setSelected(category.name);
-                          setSub(subcategory.name);
-                          window.requestAnimationFrame(() => {
-                            document
-                              .getElementById('tienda')
-                              ?.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                              });
-                          });
-                        }}
-                      >
-                        <span className="sidebarSubDot">•</span>
-                        <span>{subcategory.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                {isRangos &&
+                  rangosOpen && (
+                    <div className="sidebarSubcategories">
+                      {category.subcategories.map(
+                        subcategory => (
+                          <button
+                            key={
+                              subcategory.name
+                            }
+                            className={`sidebarSubItem ${
+                              selected ===
+                                category.name &&
+                              sub ===
+                                subcategory.name
+                                ? 'active'
+                                : ''
+                            }`}
+                            type="button"
+                            onClick={() => {
+                              setSelected(
+                                category.name
+                              );
+
+                              setSub(
+                                subcategory.name
+                              );
+
+                              window.requestAnimationFrame(
+                                () => {
+                                  document
+                                    .getElementById(
+                                      'tienda'
+                                    )
+                                    ?.scrollIntoView({
+                                      behavior:
+                                        'smooth',
+                                      block:
+                                        'start'
+                                    });
+                                }
+                              );
+                            }}
+                          >
+                            <span className="sidebarSubDot">
+                              •
+                            </span>
+
+                            <span>
+                              {
+                                subcategory.name
+                              }
+                            </span>
+                          </button>
+                        )
+                      )}
+                    </div>
+                  )}
               </div>
             );
           })}
@@ -870,7 +944,9 @@ export default function Home() {
             type="button"
             onClick={() =>
               document
-                .getElementById('antes-de-comprar')
+                .getElementById(
+                  'antes-de-comprar'
+                )
                 ?.scrollIntoView({
                   behavior: 'smooth',
                   block: 'start'
@@ -885,17 +961,23 @@ export default function Home() {
         <div className="sidebarBottom">
           <div className="sidebarMiniCard">
             <span>🏆</span>
+
             <div>
               <small>MÁXIMO DONADOR</small>
-              <strong>{MAX_DONOR_NAME}</strong>
+              <strong>
+                {MAX_DONOR_NAME}
+              </strong>
             </div>
           </div>
 
           <div className="sidebarMiniCard premium">
             <span>⚠️</span>
+
             <div>
               <small>AVISO PREMIUM</small>
-              <strong>Usa /premium</strong>
+              <strong>
+                Usa /premium
+              </strong>
             </div>
           </div>
         </div>
@@ -1206,17 +1288,15 @@ export default function Home() {
             <a
               className="backHomeButton"
               href="#inicio"
+              onClick={() => {
+                setSelected('Inicio');
+                setRangosOpen(false);
+              }}
             >
               Volver a la página principal
             </a>
           </div>
         </section>
-
-        {/* TIENDA
-            Se han eliminado las pestañas
-            duplicadas del centro.
-            Las categorías deberán manejarse
-            desde la navegación que ya tengas. */}
 
         <section
           id="tienda"
