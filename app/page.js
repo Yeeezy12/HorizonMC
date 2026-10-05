@@ -943,19 +943,34 @@ export default function Home() {
                     <small>El periodo se actualiza cada mes.</small>
                   </div>
                 </article>
-              </div>
 
-              <div className="paymentMethodsCard">
-                <div className="paymentBrands" aria-label="Métodos de pago disponibles">
-                  <span className="paymentBrand visa">VISA</span>
-                  <span className="paymentBrand mastercard"><i></i><i></i></span>
-                  <span className="paymentBrand amex">AMERICAN<br />EXPRESS</span>
-                  <span className="paymentBrand paypal">P</span>
-                </div>
+                <article className="homePanel paymentPanel">
+                  <div className="panelIcon">💳</div>
+                  <div className="paymentPanelContent">
+                    <span className="panelEyebrow">MÉTODOS DE PAGO</span>
+                    <h2>Más de 45 métodos de pago disponibles</h2>
+                    <p>Paga de forma segura utilizando los métodos disponibles para tu país.</p>
 
-                <div className="paymentMethodsText">
-                  <strong>más de 45 métodos de pago disponibles.</strong>
-                </div>
+                    <div className="paymentBrands" aria-label="Métodos de pago disponibles">
+                      <span className="paymentBrand visa">VISA</span>
+
+                      <span className="paymentBrand mastercard">
+                        <i></i>
+                        <i></i>
+                      </span>
+
+                      <span className="paymentBrand amex">
+                        AMERICAN
+                        <br />
+                        EXPRESS
+                      </span>
+
+                      <span className="paymentBrand paypal">
+                        P
+                      </span>
+                    </div>
+                  </div>
+                </article>
               </div>
             </div>
           </section>
@@ -999,67 +1014,64 @@ export default function Home() {
         {selected !== 'Inicio' && selected !== 'Antes de comprar' && currentCategory && (
           <section id="tienda" className="shop standaloneShopPage">
             <div className="shopPageHeader">
-              <div className="eyebrow">{currentCategory.icon} {currentCategory.name.toUpperCase()}</div>
-              <h1>{currentCategory.name}</h1>
-              <p>Selecciona una subcategoría y encuentra los productos disponibles.</p>
+              <div className="eyebrow">{currentCategory.icon} {currentCategory.name}</div>
+              <h1>{currentSub.name}</h1>
+              <p>Selecciona el producto que quieras adquirir para ver toda la información.</p>
             </div>
 
-            {currentCategory.subcategories.length > 1 && (
-              <div className="categoryTabs">
-                {currentCategory.subcategories.map(subcategory => (
-                  <button
-                    key={subcategory.name}
-                    type="button"
-                    className={`categoryTab ${sub === subcategory.name ? 'active' : ''}`}
-                    onClick={() => {
-                      setSub(subcategory.name);
-                      window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                      });
-                    }}
-                  >
-                    {subcategory.name}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            <div className="currentTitle">
-              <div className="eyebrow">CATEGORÍA</div>
-              <h3>{currentSub.name}</h3>
+            <div className="categoryTabs">
+              {currentCategory.subcategories.map(subcategory => (
+                <button
+                  key={subcategory.name}
+                  type="button"
+                  className={`categoryTab ${
+                    currentSub.name === subcategory.name ? 'active' : ''
+                  }`}
+                  onClick={() => setSub(subcategory.name)}
+                >
+                  {subcategory.name}
+                </button>
+              ))}
             </div>
 
-            <div className="grid">
-              {products.map(p => (
-                <article className="product" key={p.id}>
-                  <div className="productIcon">{p.icon}</div>
-                  <h3>{p.name}</h3>
-                  <p>{p.desc}</p>
+            <div className="productGrid">
+              {products.map(product => (
+                <article className="productCard" key={product.id}>
+                  <div className="productIcon">
+                    {product.icon}
+                  </div>
 
-                  <div className="buyRow">
-                    <strong>
-                      {typeof p.price === 'number'
-                        ? `${p.price.toFixed(2)} €`
-                        : 'Precio pendiente'}
-                    </strong>
+                  <div className="productCardBody">
+                    <span className="productCategory">
+                      {currentSub.name}
+                    </span>
 
-                    <div className="productActions">
-                      <button
-                        className="infoButton"
-                        aria-label={`Información sobre ${p.name}`}
-                        onClick={() => setInfoProduct(p)}
-                      >
-                        !
-                      </button>
+                    <h3>{product.name}</h3>
 
-                      <button
-                        className="addButton"
-                        aria-label={`Añadir ${p.name} al carrito`}
-                        onClick={() => add(p)}
-                      >
-                        +
-                      </button>
+                    <p>{product.desc}</p>
+
+                    <div className="productBottom">
+                      <strong className="productPrice">
+                        {product.price}€
+                      </strong>
+
+                      <div className="productActions">
+                        <button
+                          className="infoButton"
+                          type="button"
+                          onClick={() => setInfoProduct(product)}
+                        >
+                          Info
+                        </button>
+
+                        <button
+                          className="addButton"
+                          type="button"
+                          onClick={() => add(product)}
+                        >
+                          Añadir
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -1069,30 +1081,247 @@ export default function Home() {
         )}
       </div>
 
+      {infoProduct && (
+        <div
+          className="modalBackdrop"
+          onClick={() => setInfoProduct(null)}
+        >
+          <div
+            className="infoModal"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className="modalClose"
+              type="button"
+              onClick={() => setInfoProduct(null)}
+            >
+              ×
+            </button>
+
+            <div className="infoProductIcon">
+              {infoProduct.icon}
+            </div>
+
+            <div className="eyebrow">INFORMACIÓN DEL PRODUCTO</div>
+
+            <h2>{infoProduct.name}</h2>
+
+            <p>{infoProduct.desc}</p>
+
+            <div className="infoPrice">
+              {infoProduct.price}€
+            </div>
+
+            <button
+              className="primary fullButton"
+              type="button"
+              onClick={() => {
+                add(infoProduct);
+                setInfoProduct(null);
+              }}
+            >
+              Añadir al carrito
+            </button>
+          </div>
+        </div>
+      )}
+
+      {open && (
+        <div
+          className="cartBackdrop"
+          onClick={() => setOpen(false)}
+        >
+          <aside
+            className="cartDrawer"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="cartHeader">
+              <div>
+                <span className="eyebrow">TU COMPRA</span>
+                <h2>Carrito</h2>
+              </div>
+
+              <button
+                className="modalClose"
+                type="button"
+                onClick={() => setOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="cartContent">
+              {!cart.length ? (
+                <div className="emptyCart">
+                  <div>🛒</div>
+                  <h3>Tu carrito está vacío</h3>
+                  <p>Añade productos desde la tienda para continuar.</p>
+                </div>
+              ) : (
+                <>
+                  <div className="cartItems">
+                    {cart.map((product, index) => (
+                      <div
+                        className="cartItem"
+                        key={`${product.id}-${index}`}
+                      >
+                        <div className="cartItemIcon">
+                          {product.icon}
+                        </div>
+
+                        <div className="cartItemInfo">
+                          <strong>{product.name}</strong>
+                          <span>{product.price}€</span>
+                        </div>
+
+                        <button
+                          className="removeCartItem"
+                          type="button"
+                          onClick={() => removeFromCart(index)}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="cartFooter">
+                    <div className="cartTotalRow">
+                      <span>Total</span>
+                      <strong>{cartTotal.toFixed(2)}€</strong>
+                    </div>
+
+                    <button
+                      className="primary fullButton"
+                      type="button"
+                      onClick={startCheckout}
+                    >
+                      Finalizar compra
+                    </button>
+
+                    <button
+                      className="clearCartButton"
+                      type="button"
+                      onClick={clearCart}
+                    >
+                      Vaciar carrito
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {checkoutOpen && (
+        <div
+          className="modalBackdrop"
+          onClick={() => setCheckoutOpen(false)}
+        >
+          <div
+            className="checkoutModal"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className="modalClose"
+              type="button"
+              onClick={() => setCheckoutOpen(false)}
+            >
+              ×
+            </button>
+
+            <div className="eyebrow">FINALIZAR COMPRA</div>
+
+            <h2>Revisa tu pedido</h2>
+
+            {paymentResult ? (
+              <div className="paymentSuccess">
+                <div className="successIcon">✓</div>
+                <h3>Pago completado</h3>
+                <p>{paymentResult}</p>
+              </div>
+            ) : (
+              <>
+                <div className="checkoutProducts">
+                  {cart.map((product, index) => (
+                    <div
+                      className="checkoutProduct"
+                      key={`${product.id}-${index}`}
+                    >
+                      <span>
+                        {product.icon} {product.name}
+                      </span>
+
+                      <strong>
+                        {product.price}€
+                      </strong>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="checkoutTotal">
+                  <span>Total</span>
+                  <strong>{cartTotal.toFixed(2)}€</strong>
+                </div>
+
+                {paymentError && (
+                  <div className="paymentError">
+                    {paymentError}
+                  </div>
+                )}
+
+                <label className="checkoutLabel">
+                  Correo electrónico
+                  <input
+                    type="email"
+                    value={customerEmail}
+                    onChange={e => setCustomerEmail(e.target.value)}
+                    placeholder="tu@email.com"
+                  />
+                </label>
+
+                <button
+                  className="primary fullButton"
+                  type="button"
+                  disabled={paymentLoading}
+                  onClick={payWithTip4Serv}
+                >
+                  {paymentLoading
+                    ? 'Conectando con Tip4Serv...'
+                    : 'Continuar al pago'}
+                </button>
+
+                <p className="checkoutNote">
+                  Serás redirigido a Tip4Serv para completar el pago de forma segura.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       {authOpen && (
         <div
-          className="overlay authOverlay"
-          onClick={() =>
-            setAuthOpen(false)
-          }
+          className="modalBackdrop"
+          onClick={() => setAuthOpen(false)}
         >
           <div
             className="authModal"
-            onClick={e =>
-              e.stopPropagation()
-            }
+            onClick={e => e.stopPropagation()}
           >
             <button
-              className="authClose"
-              onClick={() =>
-                setAuthOpen(false)
-              }
+              className="modalClose"
+              type="button"
+              onClick={() => setAuthOpen(false)}
             >
-              ✕
+              ×
             </button>
 
             <div className="eyebrow">
-              HORIZONMC
+              {authMode === 'login'
+                ? 'CUENTA HORIZONMC'
+                : 'CREAR CUENTA'}
             </div>
 
             <h2>
@@ -1101,398 +1330,233 @@ export default function Home() {
                 : 'Crear cuenta'}
             </h2>
 
-            <p className="authIntro">
-              {authMode === 'login'
-                ? 'Entra en tu cuenta para gestionar tus compras y tu perfil.'
-                : 'Crea tu cuenta de HorizonMC para poder iniciar sesión.'}
-            </p>
-
-            <form
-              onSubmit={handleAuth}
-              className="authForm"
-            >
-              <label>
-                Usuario o correo
-
+            <form onSubmit={handleAuth}>
+              <label className="checkoutLabel">
+                Usuario
                 <input
                   name="username"
                   type="text"
-                  autoComplete="username"
                   placeholder="Tu usuario"
+                  autoComplete="username"
                 />
               </label>
 
               {authMode === 'register' && (
-                <label>
+                <label className="checkoutLabel">
                   Correo electrónico
-
                   <input
                     name="email"
                     type="email"
+                    placeholder="tu@email.com"
                     autoComplete="email"
-                    placeholder="correo@ejemplo.com"
                   />
                 </label>
               )}
 
-              {authMode === 'login' && (
-                <input
-                  name="email"
-                  type="hidden"
-                  value=""
-                  readOnly
-                />
-              )}
-
-              <label>
+              <label className="checkoutLabel">
                 Contraseña
-
                 <input
                   name="password"
                   type="password"
+                  placeholder="Tu contraseña"
                   autoComplete={
                     authMode === 'login'
                       ? 'current-password'
                       : 'new-password'
                   }
-                  placeholder="••••••••"
                 />
               </label>
 
               {authError && (
-                <div className="authError">
+                <div className="paymentError">
                   {authError}
                 </div>
               )}
 
               {authMessage && (
-                <div className="authMessage">
+                <div className="paymentSuccess compact">
                   {authMessage}
                 </div>
               )}
 
               <button
-                className="authSubmit"
+                className="primary fullButton"
                 type="submit"
               >
                 {authMode === 'login'
-                  ? 'Entrar en mi cuenta'
+                  ? 'Iniciar sesión'
                   : 'Crear cuenta'}
               </button>
             </form>
 
-            <div className="authSwitch">
-              {authMode === 'login' ? (
-                <>
-                  ¿No tienes cuenta?{' '}
-                  <button
-                    onClick={openRegister}
-                  >
-                    Crear cuenta
-                  </button>
-                </>
-              ) : (
-                <>
-                  ¿Ya tienes cuenta?{' '}
-                  <button
-                    onClick={openLogin}
-                  >
-                    Iniciar sesión
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {infoProduct && (
-        <div
-          className="overlay authOverlay"
-          onClick={() =>
-            setInfoProduct(null)
-          }
-        >
-          <div
-            className="authModal productInfoModal"
-            onClick={e =>
-              e.stopPropagation()
-            }
-          >
             <button
-              className="authClose"
-              onClick={() =>
-                setInfoProduct(null)
-              }
-            >
-              ✕
-            </button>
-
-            <div className="productInfoIcon">
-              {infoProduct.icon}
-            </div>
-
-            <div className="eyebrow">
-              INFORMACIÓN DEL PRODUCTO
-            </div>
-
-            <h2>
-              {infoProduct.name}
-            </h2>
-
-            <p className="authIntro">
-              {infoProduct.desc}
-            </p>
-
-            <div className="checkoutTotal">
-              <span>
-                Precio
-              </span>
-
-              <strong>
-                {Number(
-                  infoProduct.price
-                ).toFixed(2)} €
-              </strong>
-            </div>
-
-            <button
-              className="authSubmit"
+              className="switchAuth"
               type="button"
               onClick={() => {
-                add(infoProduct);
-                setInfoProduct(null);
+                setAuthMode(
+                  authMode === 'login'
+                    ? 'register'
+                    : 'login'
+                );
+                setAuthError('');
+                setAuthMessage('');
               }}
             >
-              Añadir al carrito +
+              {authMode === 'login'
+                ? '¿No tienes cuenta? Crear una'
+                : '¿Ya tienes cuenta? Iniciar sesión'}
             </button>
           </div>
         </div>
       )}
 
-      {checkoutOpen && (
-        <div
-          className="overlay authOverlay"
-          onClick={() =>
-            setCheckoutOpen(false)
-          }
-        >
-          <div
-            className="authModal checkoutModal"
-            onClick={e =>
-              e.stopPropagation()
-            }
-          >
-            <button
-              className="authClose"
-              onClick={() =>
-                setCheckoutOpen(false)
-              }
-            >
-              ✕
-            </button>
+      <style jsx global>{`
+        * {
+          box-sizing: border-box;
+        }
 
-            <div className="eyebrow">
-              HORIZONMC
-            </div>
+        html {
+          scroll-behavior: smooth;
+        }
 
-            <h2>
-              Finalizar compra
-            </h2>
+        body {
+          margin: 0;
+          background:
+            radial-gradient(circle at 50% -10%, rgba(79, 113, 150, 0.16), transparent 34%),
+            #07090d;
+          color: #fff;
+          font-family:
+            Inter,
+            ui-sans-serif,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+        }
 
-            <p className="authIntro">
-              Revisa tu pedido antes de
-              continuar con el pago.
-            </p>
+        button,
+        input {
+          font: inherit;
+        }
 
-            <div className="checkoutSummary">
-              {cart.map((p, i) => (
-                <div
-                  className="checkoutRow"
-                  key={`${p.id}-${i}`}
-                >
-                  <span>
-                    {p.icon} {p.name}
-                  </span>
+        button {
+          -webkit-tap-highlight-color: transparent;
+        }
 
-                  <strong>
-                    {typeof p.price ===
-                    'number'
-                      ? `${p.price.toFixed(2)} €`
-                      : 'Precio pendiente'}
-                  </strong>
-                </div>
-              ))}
-            </div>
+        .nav {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          height: 76px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 28px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          background: rgba(7, 9, 13, 0.84);
+          backdrop-filter: blur(20px);
+        }
 
-            {paymentResult ? (
-              <div className="authMessage">
-                {paymentResult}
-              </div>
-            ) : (
-              <>
-                <div className="checkoutTotal">
-                  <span>
-                    Total
-                  </span>
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-weight: 900;
+          font-size: 17px;
+          letter-spacing: 0.12em;
+        }
 
-                  <strong>
-                    {cartTotal.toFixed(2)} €
-                  </strong>
-                </div>
+        .logo span {
+          color: #fff;
+        }
 
-                {paymentError && (
-                  <div className="authError">
-                    {paymentError}
-                  </div>
-                )}
+        .navActions {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+        }
 
-                <div className="paymentButtons">
-                  <button
-                    className="stripePayButton"
-                    type="button"
-                    onClick={
-                      payWithTip4Serv
-                    }
-                    disabled={
-                      paymentLoading
-                    }
-                  >
-                    {paymentLoading
-                      ? 'Conectando con Tip4Serv…'
-                      : 'Continuar con Tip4Serv →'}
-                  </button>
-                </div>
-              </>
-            )}
+        .loginBtn,
+        .accountBtn,
+        .cartBtn {
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          background: rgba(255, 255, 255, 0.045);
+          color: rgba(255, 255, 255, 0.82);
+          border-radius: 10px;
+          padding: 10px 14px;
+          cursor: pointer;
+          transition: 0.18s ease;
+        }
 
-            <button
-              className="backCart"
-              type="button"
-              onClick={() => {
-                setCheckoutOpen(false);
-                setOpen(true);
-              }}
-            >
-              ← Volver al carrito
-            </button>
-          </div>
-        </div>
-      )}
+        .loginBtn:hover,
+        .accountBtn:hover,
+        .cartBtn:hover {
+          background: rgba(255, 255, 255, 0.09);
+          color: #fff;
+        }
 
-      {open && (
-        <div
-          className="overlay"
-          onClick={() =>
-            setOpen(false)
-          }
-        >
-          <aside
-            className="drawer"
-            onClick={e =>
-              e.stopPropagation()
-            }
-          >
-            <div className="drawerTop">
-              <h2>
-                Tu carrito{' '}
-                <span className="cartCount">
-                  {cart.length}
-                </span>
-              </h2>
+        .cartBtn b {
+          display: inline-grid;
+          place-items: center;
+          min-width: 20px;
+          height: 20px;
+          margin-left: 4px;
+          padding: 0 5px;
+          border-radius: 999px;
+          background: #fff;
+          color: #080a0f;
+          font-size: 10px;
+        }
 
-              <button
-                aria-label="Cerrar carrito"
-                onClick={() =>
-                  setOpen(false)
-                }
-              >
-                ✕
-              </button>
-            </div>
+        .accountWrap {
+          position: relative;
+        }
 
-            {cart.length === 0 ? (
-              <div className="empty">
-                🛒
+        .accountMenu {
+          position: absolute;
+          top: calc(100% + 9px);
+          right: 0;
+          width: 230px;
+          padding: 14px;
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          border-radius: 14px;
+          background: rgba(13, 16, 22, 0.98);
+          box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(20px);
+        }
 
-                <h3>
-                  Tu carrito está vacío
-                </h3>
+        .accountName {
+          font-size: 14px;
+        }
 
-                <p>
-                  Añade un producto para
-                  continuar.
-                </p>
-              </div>
-            ) : (
-              <div className="cartContent">
-                <div className="cartItems">
-                  {cart.map((p, i) => (
-                    <div
-                      className="cartItem"
-                      key={`${p.id}-${i}`}
-                    >
-                      <span className="cartItemIcon">
-                        {p.icon}
-                      </span>
+        .accountEmail {
+          margin: 4px 0 12px;
+          color: rgba(255, 255, 255, 0.45);
+          font-size: 11px;
+          word-break: break-word;
+        }
 
-                      <div className="cartItemInfo">
-                        <b>
-                          {p.name}
-                        </b>
+        .accountMenu > button {
+          width: 100%;
+          padding: 9px 10px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 9px;
+          background: rgba(255, 255, 255, 0.05);
+          color: #fff;
+          cursor: pointer;
+        }
 
-                        <small>
-                          {p.price}
-                        </small>
-                      </div>
-
-                      <button
-                        className="removeItem"
-                        aria-label={`Quitar ${p.name}`}
-                        onClick={() =>
-                          removeFromCart(i)
-                        }
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="cartBottom">
-                  <button
-                    className="clearCart"
-                    onClick={clearCart}
-                  >
-                    Vaciar carrito
-                  </button>
-
-                  <button
-                    className="checkout"
-                    onClick={
-                      startCheckout
-                    }
-                  >
-                    Continuar al pago →
-                  </button>
-                </div>
-              </div>
-            )}
-          </aside>
-        </div>
-      )}
-
-      <style jsx>{`
         .horizonSidebar {
           position: fixed;
+          z-index: 40;
+          top: 92px;
           left: 18px;
-          top: 96px;
           bottom: 18px;
-          width: 238px;
-          z-index: 50;
+          width: 240px;
           display: flex;
           flex-direction: column;
-          padding: 18px 14px;
+          padding: 16px 12px;
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
           background: rgba(10, 12, 18, 0.96);
@@ -1713,18 +1777,241 @@ export default function Home() {
           color: rgba(255, 255, 255, 0.68);
         }
 
-        .paymentMethodsCard {
-          width: min(100%, 900px);
-          margin: 42px auto 0;
-          padding: 18px 22px;
-          display: flex;
+        .pageWithSidebar {
+          padding-left: 276px;
+        }
+
+        #tienda {
+          scroll-margin-top: 96px;
+        }
+
+        .standalonePage,
+        .standaloneShopPage {
+          min-height: calc(100vh - 96px);
+          scroll-margin-top: 96px;
+        }
+
+        .standaloneShopPage {
+          padding-top: 80px;
+          padding-bottom: 100px;
+        }
+
+        .homeIntro {
+          position: relative;
+          min-height: calc(100vh - 76px);
+          padding: 70px 5vw 100px;
+          overflow: hidden;
+        }
+
+        .homeIntroGlow {
+          position: absolute;
+          top: -180px;
+          left: 25%;
+          width: 700px;
+          height: 500px;
+          border-radius: 50%;
+          background: rgba(69, 106, 143, 0.15);
+          filter: blur(80px);
+          pointer-events: none;
+        }
+
+        .homeIntroInner {
+          position: relative;
+          z-index: 1;
+          max-width: 1180px;
+          margin: 0 auto;
+        }
+
+        .welcomeCopy {
+          max-width: 760px;
+        }
+
+        .pill,
+        .eyebrow,
+        .panelEyebrow {
+          color: rgba(255, 255, 255, 0.42);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+        }
+
+        .pill {
+          display: inline-flex;
+          padding: 8px 11px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        .welcomeCopy h1 {
+          margin: 18px 0 16px;
+          font-size: clamp(44px, 6vw, 76px);
+          line-height: 0.98;
+          letter-spacing: -0.05em;
+        }
+
+        .welcomeCopy h1 em {
+          font-style: normal;
+          color: #9fd5ff;
+        }
+
+        .welcomeLead {
+          max-width: 700px;
+          margin: 0 0 10px;
+          color: rgba(255, 255, 255, 0.55);
+          font-size: 15px;
+          line-height: 1.75;
+        }
+
+        .primary {
+          display: inline-flex;
           align-items: center;
           justify-content: center;
+          gap: 10px;
+          margin-top: 22px;
+          padding: 12px 18px;
+          border: 0;
+          border-radius: 11px;
+          background: #fff;
+          color: #080a0f;
+          font-weight: 800;
+          cursor: pointer;
+          transition: 0.18s ease;
+        }
+
+        .primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(255, 255, 255, 0.12);
+        }
+
+        .creatorCard {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 250px;
+          min-height: 310px;
+          padding: 22px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 24px;
+          background:
+            radial-gradient(circle at 50% 20%, rgba(105, 169, 221, 0.18), transparent 50%),
+            rgba(255, 255, 255, 0.035);
+          text-align: center;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+        }
+
+        .welcomeOrb {
+          display: grid;
+          place-items: center;
+          width: 46px;
+          height: 46px;
+          margin: 0 auto 12px;
+          border-radius: 14px;
+          background: rgba(255, 255, 255, 0.08);
+          font-size: 21px;
+        }
+
+        .creatorLabel {
+          display: block;
+          color: rgba(255, 255, 255, 0.35);
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: 0.15em;
+        }
+
+        .creatorName {
+          display: block;
+          margin-top: 5px;
+          font-size: 24px;
+          font-weight: 900;
+        }
+
+        .skinFrame {
+          width: 145px;
+          height: 170px;
+          margin: 14px auto 0;
+          overflow: hidden;
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.045);
+        }
+
+        .skinFrame img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .homePanels {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+          margin-top: 52px;
+        }
+
+        .homePanel {
+          display: flex;
+          gap: 14px;
+          min-height: 145px;
+          padding: 22px;
+          border: 1px solid rgba(255, 255, 255, 0.075);
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.035);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .panelIcon,
+        .donorCrown {
+          flex: 0 0 auto;
+          display: grid;
+          place-items: center;
+          width: 42px;
+          height: 42px;
+          border-radius: 13px;
+          background: rgba(255, 255, 255, 0.075);
+          font-weight: 900;
+        }
+
+        .donorCrown {
+          font-size: 20px;
+        }
+
+        .homePanel h2 {
+          margin: 5px 0 7px;
+          font-size: 18px;
+        }
+
+        .homePanel p {
+          margin: 0;
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .homePanel small {
+          display: block;
+          margin-top: 9px;
+          color: rgba(255, 255, 255, 0.28);
+          font-size: 10px;
+        }
+
+        .paymentPanel {
+          grid-column: 1 / -1;
+          display: flex;
+          align-items: center;
           gap: 18px;
-          border-radius: 12px;
-          background: rgba(31, 45, 59, 0.92);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        .paymentPanelContent {
+          min-width: 0;
+          flex: 1;
+        }
+
+        .paymentPanel h2 {
+          margin: 4px 0 7px;
+        }
+
+        .paymentPanel p {
+          margin: 0 0 14px;
         }
 
         .paymentBrands {
@@ -1796,33 +2083,73 @@ export default function Home() {
           font-style: italic;
         }
 
-        .paymentMethodsText {
-          color: #9bdcff;
+        .beforeBuy {
+          padding: 80px 5vw 100px;
+        }
+
+        .beforeBuyInner {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .beforeBuyInner h2 {
+          max-width: 800px;
+          margin: 10px 0 16px;
+          font-size: clamp(34px, 5vw, 58px);
+          line-height: 1.02;
+          letter-spacing: -0.04em;
+        }
+
+        .beforeLead {
+          color: rgba(255, 255, 255, 0.56);
+          line-height: 1.8;
           font-size: 15px;
-          white-space: nowrap;
         }
 
-        .paymentMethodsText strong {
-          font-weight: 600;
+        .beforeBuyNotice,
+        .beforeBuySupport,
+        .refundBox {
+          margin-top: 22px;
+          padding: 25px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.035);
         }
 
-        .pageWithSidebar {
-          padding-left: 276px;
+        .beforeBuyNotice h3,
+        .beforeBuySupport h3,
+        .refundBox h3 {
+          margin: 0 0 12px;
+          font-size: 18px;
         }
 
-        #tienda {
-          scroll-margin-top: 96px;
+        .beforeBuyNotice ul {
+          margin: 0;
+          padding-left: 20px;
+          color: rgba(255, 255, 255, 0.56);
+          line-height: 1.75;
+          font-size: 14px;
         }
 
-        .standalonePage,
-        .standaloneShopPage {
-          min-height: calc(100vh - 96px);
-          scroll-margin-top: 96px;
+        .beforeBuySupport p,
+        .refundBox p {
+          color: rgba(255, 255, 255, 0.56);
+          line-height: 1.75;
+          font-size: 14px;
         }
 
-        .standaloneShopPage {
-          padding-top: 80px;
-          padding-bottom: 100px;
+        .discordButton {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 8px;
+          padding: 10px 14px;
+          border-radius: 10px;
+          background: #5865f2;
+          color: #fff;
+          text-decoration: none;
+          font-weight: 800;
+          font-size: 13px;
         }
 
         .shopPageHeader {
@@ -1867,6 +2194,441 @@ export default function Home() {
           border-color: rgba(255,255,255,.16);
         }
 
+        .productGrid {
+          max-width: 1180px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 14px;
+        }
+
+        .productCard {
+          min-width: 0;
+          padding: 20px;
+          border: 1px solid rgba(255,255,255,.07);
+          border-radius: 18px;
+          background: rgba(255,255,255,.035);
+          transition: .18s ease;
+        }
+
+        .productCard:hover {
+          transform: translateY(-3px);
+          border-color: rgba(255,255,255,.13);
+          background: rgba(255,255,255,.05);
+        }
+
+        .productIcon {
+          display: grid;
+          place-items: center;
+          width: 52px;
+          height: 52px;
+          margin-bottom: 18px;
+          border-radius: 15px;
+          background: rgba(255,255,255,.07);
+          font-size: 24px;
+        }
+
+        .productCategory {
+          color: rgba(255,255,255,.32);
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+        }
+
+        .productCard h3 {
+          margin: 6px 0 8px;
+          font-size: 18px;
+        }
+
+        .productCard p {
+          min-height: 45px;
+          margin: 0;
+          color: rgba(255,255,255,.5);
+          font-size: 13px;
+          line-height: 1.55;
+        }
+
+        .productBottom {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 10px;
+          margin-top: 20px;
+        }
+
+        .productPrice {
+          font-size: 21px;
+        }
+
+        .productActions {
+          display: flex;
+          gap: 6px;
+        }
+
+        .infoButton,
+        .addButton {
+          padding: 8px 11px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        .infoButton {
+          border: 1px solid rgba(255,255,255,.09);
+          background: transparent;
+          color: rgba(255,255,255,.65);
+        }
+
+        .addButton {
+          border: 0;
+          background: #fff;
+          color: #080a0f;
+        }
+
+        .modalBackdrop,
+        .cartBackdrop {
+          position: fixed;
+          z-index: 100;
+          inset: 0;
+          display: grid;
+          place-items: center;
+          padding: 20px;
+          background: rgba(0,0,0,.72);
+          backdrop-filter: blur(9px);
+        }
+
+        .infoModal,
+        .checkoutModal,
+        .authModal {
+          position: relative;
+          width: min(100%, 520px);
+          max-height: calc(100vh - 40px);
+          overflow-y: auto;
+          padding: 30px;
+          border: 1px solid rgba(255,255,255,.09);
+          border-radius: 22px;
+          background: #0c0f15;
+          box-shadow: 0 25px 80px rgba(0,0,0,.5);
+        }
+
+        .modalClose {
+          position: absolute;
+          top: 13px;
+          right: 13px;
+          width: 34px;
+          height: 34px;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 10px;
+          background: rgba(255,255,255,.05);
+          color: rgba(255,255,255,.75);
+          cursor: pointer;
+          font-size: 20px;
+        }
+
+        .infoProductIcon {
+          display: grid;
+          place-items: center;
+          width: 64px;
+          height: 64px;
+          margin-bottom: 18px;
+          border-radius: 18px;
+          background: rgba(255,255,255,.07);
+          font-size: 30px;
+        }
+
+        .infoModal h2,
+        .checkoutModal h2,
+        .authModal h2 {
+          margin: 8px 0 12px;
+          font-size: 30px;
+        }
+
+        .infoModal p {
+          color: rgba(255,255,255,.56);
+          line-height: 1.7;
+        }
+
+        .infoPrice {
+          margin-top: 18px;
+          font-size: 27px;
+          font-weight: 900;
+        }
+
+        .fullButton {
+          width: 100%;
+          margin-top: 18px;
+        }
+
+        .cartDrawer {
+          position: fixed;
+          z-index: 101;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: min(440px, 94vw);
+          display: flex;
+          flex-direction: column;
+          border-left: 1px solid rgba(255,255,255,.08);
+          background: #0b0e14;
+          box-shadow: -20px 0 60px rgba(0,0,0,.4);
+        }
+
+        .cartHeader {
+          position: relative;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          padding: 25px;
+          border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .cartHeader h2 {
+          margin: 5px 0 0;
+        }
+
+        .cartContent {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+        }
+
+        .emptyCart {
+          display: grid;
+          place-items: center;
+          min-height: 300px;
+          padding: 30px;
+          text-align: center;
+        }
+
+        .emptyCart > div {
+          font-size: 45px;
+        }
+
+        .emptyCart h3 {
+          margin: 12px 0 5px;
+        }
+
+        .emptyCart p {
+          margin: 0;
+          color: rgba(255,255,255,.45);
+          font-size: 13px;
+        }
+
+        .cartItems {
+          flex: 1;
+          padding: 16px 20px;
+        }
+
+        .cartItem {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+
+        .cartItemIcon {
+          display: grid;
+          place-items: center;
+          width: 38px;
+          height: 38px;
+          flex: 0 0 auto;
+          border-radius: 10px;
+          background: rgba(255,255,255,.06);
+        }
+
+        .cartItemInfo {
+          min-width: 0;
+          flex: 1;
+        }
+
+        .cartItemInfo strong,
+        .cartItemInfo span {
+          display: block;
+        }
+
+        .cartItemInfo strong {
+          font-size: 12px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .cartItemInfo span {
+          margin-top: 3px;
+          color: rgba(255,255,255,.45);
+          font-size: 11px;
+        }
+
+        .removeCartItem {
+          width: 28px;
+          height: 28px;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 8px;
+          background: transparent;
+          color: rgba(255,255,255,.5);
+          cursor: pointer;
+        }
+
+        .cartFooter {
+          padding: 18px 20px;
+          border-top: 1px solid rgba(255,255,255,.07);
+          background: #0b0e14;
+        }
+
+        .cartTotalRow,
+        .checkoutTotal {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: rgba(255,255,255,.6);
+        }
+
+        .cartTotalRow strong,
+        .checkoutTotal strong {
+          color: #fff;
+          font-size: 22px;
+        }
+
+        .clearCartButton {
+          width: 100%;
+          margin-top: 8px;
+          padding: 9px;
+          border: 0;
+          background: transparent;
+          color: rgba(255,255,255,.4);
+          cursor: pointer;
+          font-size: 11px;
+        }
+
+        .checkoutProducts {
+          margin: 18px 0;
+          padding: 12px 0;
+          border-top: 1px solid rgba(255,255,255,.06);
+          border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+
+        .checkoutProduct {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 9px 0;
+          color: rgba(255,255,255,.62);
+          font-size: 13px;
+        }
+
+        .checkoutTotal {
+          margin-bottom: 16px;
+        }
+
+        .checkoutLabel {
+          display: block;
+          margin-top: 14px;
+          color: rgba(255,255,255,.6);
+          font-size: 11px;
+          font-weight: 700;
+        }
+
+        .checkoutLabel input {
+          width: 100%;
+          margin-top: 7px;
+          padding: 12px;
+          border: 1px solid rgba(255,255,255,.09);
+          border-radius: 10px;
+          outline: none;
+          background: rgba(255,255,255,.045);
+          color: #fff;
+        }
+
+        .checkoutLabel input:focus {
+          border-color: rgba(255,255,255,.2);
+        }
+
+        .paymentError {
+          margin-top: 12px;
+          padding: 10px 12px;
+          border: 1px solid rgba(255, 85, 85, .2);
+          border-radius: 9px;
+          background: rgba(255, 85, 85, .08);
+          color: #ffb4b4;
+          font-size: 12px;
+        }
+
+        .paymentSuccess {
+          margin-top: 20px;
+          padding: 20px;
+          border: 1px solid rgba(89, 218, 133, .18);
+          border-radius: 14px;
+          background: rgba(89, 218, 133, .07);
+          text-align: center;
+        }
+
+        .paymentSuccess.compact {
+          text-align: left;
+          padding: 10px 12px;
+          color: #a8efbf;
+          font-size: 12px;
+        }
+
+        .successIcon {
+          display: grid;
+          place-items: center;
+          width: 50px;
+          height: 50px;
+          margin: 0 auto 12px;
+          border-radius: 50%;
+          background: rgba(89, 218, 133, .15);
+          color: #72e99b;
+          font-size: 25px;
+          font-weight: 900;
+        }
+
+        .paymentSuccess h3 {
+          margin: 0 0 8px;
+        }
+
+        .paymentSuccess p {
+          margin: 0;
+          color: rgba(255,255,255,.58);
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .checkoutNote {
+          margin: 12px 0 0;
+          color: rgba(255,255,255,.3);
+          text-align: center;
+          font-size: 10px;
+          line-height: 1.5;
+        }
+
+        .switchAuth {
+          display: block;
+          margin: 16px auto 0;
+          border: 0;
+          background: transparent;
+          color: #9bdcff;
+          cursor: pointer;
+          font-size: 11px;
+        }
+
+        @media (max-width: 1100px) {
+          .creatorCard {
+            position: relative;
+            top: auto;
+            right: auto;
+            margin: 35px auto 0;
+          }
+
+          .productGrid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
         @media (max-width: 900px) {
           .horizonSidebar {
             position: sticky;
@@ -1905,17 +2667,89 @@ export default function Home() {
             padding-left: 0;
           }
 
-          .paymentMethodsCard {
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-left: 12px;
-            margin-right: 12px;
-            width: auto;
+          .homeIntro {
+            padding-top: 35px;
           }
 
-          .paymentMethodsText {
-            white-space: normal;
-            text-align: center;
+          .homePanels {
+            grid-template-columns: 1fr;
+          }
+
+          .paymentPanel {
+            grid-column: auto;
+            align-items: flex-start;
+          }
+
+          .paymentBrands {
+            flex-wrap: wrap;
+          }
+
+          .productGrid {
+            grid-template-columns: 1fr;
+          }
+
+          .nav {
+            padding: 0 14px;
+          }
+
+          .logo {
+            font-size: 14px;
+          }
+
+          .loginBtn {
+            display: none;
+          }
+
+          .cartBtn {
+            padding: 9px 11px;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .homeIntro {
+            padding-left: 18px;
+            padding-right: 18px;
+          }
+
+          .beforeBuy {
+            padding-left: 18px;
+            padding-right: 18px;
+          }
+
+          .standaloneShopPage {
+            padding-left: 18px;
+            padding-right: 18px;
+          }
+
+          .creatorCard {
+            width: 100%;
+          }
+
+          .homePanel {
+            padding: 17px;
+          }
+
+          .paymentPanel {
+            flex-direction: column;
+          }
+
+          .paymentBrands {
+            margin-top: 3px;
+          }
+
+          .productBottom {
+            align-items: center;
+          }
+
+          .productActions {
+            flex-wrap: wrap;
+            justify-content: flex-end;
+          }
+
+          .infoModal,
+          .checkoutModal,
+          .authModal {
+            padding: 24px 18px;
           }
         }
       `}</style>
