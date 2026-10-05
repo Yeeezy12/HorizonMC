@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { PRODUCT_PRICES } from '../lib_products';
 
-// Sustituye esta URL por la invitación permanente de tu servidor de Discord.
 const DISCORD_URL = 'https://discord.gg/dhbtnptHsp';
 const MAX_DONOR_NAME = 'GoodKyuX';
 
@@ -197,14 +196,17 @@ export default function Home() {
         setAuthError('El usuario debe tener al menos 3 caracteres.');
         return;
       }
+
       if (password.length < 6) {
         setAuthError('La contraseña debe tener al menos 6 caracteres.');
         return;
       }
+
       if (accounts.some(a => a.username.toLowerCase() === username.toLowerCase())) {
         setAuthError('Ese nombre de usuario ya está registrado.');
         return;
       }
+
       if (accounts.some(a => a.email === email)) {
         setAuthError('Ese correo ya está registrado.');
         return;
@@ -354,37 +356,38 @@ export default function Home() {
             </div>
           </div>
 
-        <div className="homePanels">
-          <article className="homePanel warningPanel">
-            <div className="panelIcon">!</div>
-            <div>
-              <span className="panelEyebrow">IMPORTANTE</span>
-              <h2>Estás en la tienda oficial de HorizonMC</h2>
-              <p>
-                Asegúrate de que estás comprando en la tienda correcta.
-                No realizamos reembolsos por compras realizadas en una tienda equivocada.
-              </p>
-            </div>
-          </article>
+          <div className="homePanels">
+            <article className="homePanel warningPanel">
+              <div className="panelIcon">!</div>
+              <div>
+                <span className="panelEyebrow">IMPORTANTE</span>
+                <h2>Estás en la tienda oficial de HorizonMC</h2>
+                <p>
+                  Asegúrate de que estás comprando en la tienda correcta.
+                  No realizamos reembolsos por compras realizadas en una tienda equivocada.
+                </p>
+              </div>
+            </article>
 
-          <article className="homePanel premiumPanel">
-            <div className="panelIcon">✓</div>
-            <div>
-              <span className="panelEyebrow">IMPORTANTE PARA PREMIUM</span>
-              <h2>Si eres Premium, usa /premium antes de comprar</h2>
-              <p>Por seguridad, asegúrate de tener puesto el comando <strong>/premium</strong> en el servidor antes de realizar tu compra.</p>
-            </div>
-          </article>
+            <article className="homePanel premiumPanel">
+              <div className="panelIcon">✓</div>
+              <div>
+                <span className="panelEyebrow">IMPORTANTE PARA PREMIUM</span>
+                <h2>Si eres Premium, usa /premium antes de comprar</h2>
+                <p>Por seguridad, asegúrate de tener puesto el comando <strong>/premium</strong> en el servidor antes de realizar tu compra.</p>
+              </div>
+            </article>
 
-          <article className="homePanel donorPanel">
-            <div className="donorCrown">🏆</div>
-            <div>
-              <span className="panelEyebrow">MÁXIMO DONADOR</span>
-              <h2>{MAX_DONOR_NAME}</h2>
-              <p>Fue quien más donó durante <strong>{monthLabel || 'este mes'}</strong>.</p>
-              <small>El periodo se actualiza cada mes.</small>
-            </div>
-          </article>
+            <article className="homePanel donorPanel">
+              <div className="donorCrown">🏆</div>
+              <div>
+                <span className="panelEyebrow">MÁXIMO DONADOR</span>
+                <h2>{MAX_DONOR_NAME}</h2>
+                <p>Fue quien más donó durante <strong>{monthLabel || 'este mes'}</strong>.</p>
+                <small>El periodo se actualiza cada mes.</small>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
