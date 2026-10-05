@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { PRODUCT_PRICES } from '../lib_products';
 
 // Sustituye esta URL por la invitación permanente de tu servidor de Discord.
-const DISCORD_URL = '#soporte';
+const DISCORD_URL = 'https://discord.gg/dhbtnptHsp';
 const MAX_DONOR_NAME = 'GoodKyuX';
 
 function currentMonthLabel() {
@@ -344,25 +344,16 @@ export default function Home() {
             <a className="primary" href="#tienda">Ver tienda <span>→</span></a>
           </div>
 
-          <div className="welcomeVisual">
-            <div className="welcomeOrb">H</div>
-            <span>HORIZONMC</span>
-            <strong>Tienda oficial</strong>
-            <p>Rangos · Protección · Spawners · Coins</p>
+          <div className="welcomeVisual creatorCard">
+            <div className="welcomeOrb creatorOrb" aria-hidden="true">👑</div>
+            <span className="creatorLabel">CREADOR</span>
+            <div className="skinFrame">
+              <img src="/creator-skin.png" alt="Skin del creador de HorizonMC" />
+            </div>
           </div>
         </div>
 
         <div className="homePanels">
-          <article className="homePanel supportPanel" id="soporte">
-            <div className="panelIcon">💬</div>
-            <div>
-              <span className="panelEyebrow">DISCORD DEL SOPORTE</span>
-              <h2>¿Necesitas ayuda?</h2>
-              <p>Entra en nuestro Discord para contactar con el equipo de soporte y crear un ticket.</p>
-              <a className="discordButton" href={DISCORD_URL}>Abrir Discord <span>↗</span></a>
-            </div>
-          </article>
-
           <article className="homePanel warningPanel">
             <div className="panelIcon">!</div>
             <div>
@@ -393,35 +384,6 @@ export default function Home() {
               <small>El periodo se actualiza cada mes.</small>
             </div>
           </article>
-        </div>
-      </section>
-
-      <section className="paymentsInfo">
-        <div className="paymentsIntro">
-          <div className="eyebrow">PAGOS SEGUROS</div>
-          <h2>Atención al cliente / Soporte</h2>
-          <p>
-            Los pagos se completarán de forma segura y serán gestionados por HorizonMC.
-            Los métodos de pago disponibles pueden variar según tu país.
-          </p>
-          <a className="supportLink" href="#soporte">Discord del soporte <span>→</span></a>
-        </div>
-
-        <div className="paymentsMethods">
-          <div className="paymentHeading">
-            <strong>Métodos de pago</strong>
-            <span>Más de 40 métodos de pago disponibles</span>
-          </div>
-          <p className="paymentDescription">
-            Las tarjetas de crédito y débito se gestionan de forma global.
-            Aquí tienes algunos de los principales métodos disponibles actualmente.
-          </p>
-          <div className="paymentCards">
-            <div className="paymentCard"><span className="visaLogo">VISA</span><small>Tarjeta</small></div>
-            <div className="paymentCard"><span className="masterLogo"><i></i><i></i></span><small>Mastercard</small></div>
-            <div className="paymentCard amexCard"><span>AMERICAN EXPRESS</span><small>Tarjeta</small></div>
-            <div className="paymentCard paypalCard"><span className="paypalLogo">P</span><small>PayPal</small></div>
-          </div>
         </div>
       </section>
 
@@ -529,6 +491,35 @@ export default function Home() {
           <div><b>01</b><h3>Elige un producto</h3><p>Busca tu rango, protección, spawner o Horizon Coins en la categoría correspondiente.</p></div>
           <div><b>02</b><h3>Realiza el pago</h3><p>Serás enviado al checkout seguro de Tip4Serv para completar el pago.</p></div>
           <div><b>03</b><h3>Recíbelo en Minecraft</h3><p>Tip4Serv procesa automáticamente la entrega en el servidor HorizonMC.</p></div>
+        </div>
+      </section>
+
+      <section id="soporte" className="paymentsInfo">
+        <div className="paymentsIntro">
+          <div className="eyebrow">PAGOS SEGUROS</div>
+          <h2>Atención al cliente / Soporte</h2>
+          <p>
+            Los pagos se completarán de forma segura y serán gestionados por HorizonMC.
+            Los métodos de pago disponibles pueden variar según tu país.
+          </p>
+          <a className="supportLink" href="#soporte">Discord del soporte <span>→</span></a>
+        </div>
+
+        <div className="paymentsMethods">
+          <div className="paymentHeading">
+            <strong>Métodos de pago</strong>
+            <span>Más de 40 métodos de pago disponibles</span>
+          </div>
+          <p className="paymentDescription">
+            Las tarjetas de crédito y débito se gestionan de forma global.
+            Aquí tienes algunos de los principales métodos disponibles actualmente.
+          </p>
+          <div className="paymentCards">
+            <div className="paymentCard"><span className="visaLogo">VISA</span><small>Tarjeta</small></div>
+            <div className="paymentCard"><span className="masterLogo"><i></i><i></i></span><small>Mastercard</small></div>
+            <div className="paymentCard amexCard"><span>AMERICAN EXPRESS</span><small>Tarjeta</small></div>
+            <div className="paymentCard paypalCard"><span className="paypalLogo">P</span><small>PayPal</small></div>
+          </div>
         </div>
       </section>
 

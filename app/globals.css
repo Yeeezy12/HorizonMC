@@ -339,3 +339,86 @@
 .productInfoIcon{width:72px;height:72px;display:grid;place-items:center;border-radius:18px;background:#191321;border:1px solid #332642;font-size:34px;margin-bottom:18px}
 .productInfoModal .authSubmit{margin-top:12px}
 @media(max-width:800px){.homePanels{grid-template-columns:1fr}.productActions button{width:38px;height:38px}}
+
+
+/* ===== Ajustes finales de la portada HorizonMC ===== */
+.homeIntro{
+  background:
+    linear-gradient(90deg,rgba(8,7,13,.92) 0%,rgba(8,7,13,.72) 48%,rgba(8,7,13,.58) 100%),
+    linear-gradient(180deg,rgba(8,7,13,.18),rgba(8,7,13,.62)),
+    url("/horizon-bg.png") center/cover no-repeat;
+}
+
+.homeIntroGlow{
+  background:#8b2be022;
+}
+
+/* Tarjeta del creador */
+.welcomeVisual.creatorCard{
+  min-height:360px;
+  height:360px;
+  padding:26px 28px 18px;
+  align-items:flex-start;
+  justify-content:flex-start;
+  text-align:left;
+}
+
+.creatorCard .creatorOrb{
+  width:68px;
+  height:68px;
+  min-width:68px;
+  margin:0 0 14px 0;
+  font-size:30px;
+  line-height:1;
+}
+
+.creatorCard .creatorLabel{
+  color:#ffd34e;
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:900;
+}
+
+.creatorCard .skinFrame{
+  width:100%;
+  height:205px;
+  margin:4px 0 0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  overflow:hidden;
+  background:transparent;
+  border-radius:14px;
+  flex:1;
+}
+
+.creatorCard .skinFrame img{
+  height:200px;
+  width:auto;
+  max-width:100%;
+  object-fit:contain;
+  image-rendering:auto;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.55));
+}
+
+/* El bloque de soporte/pagos queda al final, después de Cómo funciona */
+#soporte.paymentsInfo{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+@media(max-width:800px){
+  .welcomeVisual.creatorCard{
+    min-height:350px;
+    height:350px;
+    padding:24px;
+  }
+
+  .creatorCard .skinFrame{
+    height:195px;
+  }
+
+  .creatorCard .skinFrame img{
+    height:190px;
+  }
+}
