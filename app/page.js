@@ -528,12 +528,13 @@ export default function Home() {
       return;
     }
 
+    const identifier = username.toLowerCase();
+
     const found = accounts.find(
       a =>
         (
-          a.username.toLowerCase() ===
-            username.toLowerCase() ||
-          a.email === email
+          a.username.toLowerCase() === identifier ||
+          a.email === identifier
         ) &&
         a.password === password
     );
@@ -593,6 +594,7 @@ export default function Home() {
 
   function goToCategory(category) {
     selectCategory(category);
+
     window.requestAnimationFrame(() => {
       document.getElementById('tienda')?.scrollIntoView({
         behavior: 'smooth',
@@ -758,9 +760,13 @@ export default function Home() {
         </div>
       </header>
 
-      <aside className="horizonSidebar" aria-label="Navegación de la tienda">
+      <aside
+        className="horizonSidebar"
+        aria-label="Navegación de la tienda"
+      >
         <div className="sidebarBrand">
           <span className="sidebarBrandMark">H</span>
+
           <div>
             <strong>HORIZONMC</strong>
             <small>Tienda oficial</small>
@@ -768,7 +774,9 @@ export default function Home() {
         </div>
 
         <div className="sidebarSection">
-          <span className="sidebarLabel">NAVEGACIÓN</span>
+          <span className="sidebarLabel">
+            NAVEGACIÓN
+          </span>
 
           <button
             className="sidebarItem"
@@ -794,6 +802,7 @@ export default function Home() {
               onClick={() => goToCategory(category)}
             >
               <span>{category.icon}</span>
+
               <span>
                 {category.name === 'Coins'
                   ? 'Horizon Coins'
@@ -822,6 +831,7 @@ export default function Home() {
         <div className="sidebarBottom">
           <div className="sidebarMiniCard">
             <span>🏆</span>
+
             <div>
               <small>MÁXIMO DONADOR</small>
               <strong>{MAX_DONOR_NAME}</strong>
@@ -830,6 +840,7 @@ export default function Home() {
 
           <div className="sidebarMiniCard premium">
             <span>⚠️</span>
+
             <div>
               <small>AVISO PREMIUM</small>
               <strong>Usa /premium</strong>
