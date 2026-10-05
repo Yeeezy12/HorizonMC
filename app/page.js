@@ -3,7 +3,32 @@
 import { useEffect, useState } from 'react';
 import { PRODUCT_PRICES } from '../lib_products';
 
+// Sustituye esta URL por la invitación permanente de tu servidor de Discord.
+const DISCORD_URL = '#soporte';
+const MAX_DONOR_NAME = 'GoodKyuX';
+
+function currentMonthLabel() {
+  return new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(new Date());
+}
+
 const categories = [
+  {
+    name: 'Survival 1.21.11',
+    icon: '⛏️',
+    subcategories: [
+      {
+        name: 'Comandos',
+        products: [
+          {id:'comando-condense-permanente', name:'/condense permanente', icon:'⚙️', price:6, desc:'Acceso permanente al comando /condense.'},
+          {id:'comando-fly-1-mes', name:'/fly · 1 mes', icon:'🪽', price:6, desc:'Acceso al comando /fly durante 1 mes.'},
+          {id:'comando-hack-permanente', name:'/hack permanente', icon:'⚡', price:5, desc:'Acceso permanente al comando /hack.'},
+          {id:'comando-school-permanente', name:'/school permanente', icon:'📚', price:6, desc:'Acceso permanente al comando /school.'},
+          {id:'comando-inse-permanente', name:'/inse permanente', icon:'✨', price:7, desc:'Acceso permanente al comando /inse.'},
+          {id:'fly-permanente', name:'Fly permanente', icon:'🪽', price:18, desc:'Acceso permanente a Fly.'}
+        ]
+      }
+    ]
+  },
   {
     name: 'Rangos',
     icon: '👑',
@@ -36,49 +61,40 @@ const categories = [
     name: 'Protección',
     icon: '🛡️',
     subcategories: [
-      {
-        name: 'Protección',
-        products: [
-          {id: 'proteccion-de-clan', name:'Piedra de Protección de Clan 200x200', icon:'🗿', price:PRODUCT_PRICES['proteccion-200'], desc:'Piedra de protección de clan con un área de 200x200 bloques.'}
-        ]
-      }
+      { name: 'Protección', products: [
+        {id: 'proteccion-de-clan', name:'Piedra de Protección de Clan 200x200', icon:'🗿', price:PRODUCT_PRICES['proteccion-200'], desc:'Piedra de protección de clan con un área de 200x200 bloques.'}
+      ]}
     ]
   },
   {
-    name: 'Spawners',
-    icon: '🔥',
-    subcategories: [
-      {
-        name: 'Spawners de Mobs',
-        products: [
-          {id:'spawner-de-golem', name:'Spawner de Golem', icon:'🗿', price:PRODUCT_PRICES.golem, desc:'Spawner de Golem.'},
-          {id:'spawner-de-enderman', name:'Spawner de Enderman', icon:'👁️', price:PRODUCT_PRICES.enderman, desc:'Spawner de Enderman.'},
-          {id:'spawner-de-blaze', name:'Spawner de Blaze', icon:'🔥', price:PRODUCT_PRICES.blaze, desc:'Spawner de Blaze.'},
-          {id:'spawner-de-shulker', name:'Spawner de Shulker', icon:'🟪', price:PRODUCT_PRICES.shulker, desc:'Spawner de Shulker.'},
-          {id:'spawner-de-creeper', name:'Spawner de Creeper', icon:'💥', price:PRODUCT_PRICES.creeper, desc:'Spawner de Creeper.'},
-          {id:'spawner-de-esqueleto', name:'Spawner de Esqueleto', icon:'💀', price:PRODUCT_PRICES.esqueleto, desc:'Spawner de Esqueleto.'},
-          {id:'spawner-de-vaca', name:'Spawner de Vaca', icon:'🐄', price:PRODUCT_PRICES.vaca, desc:'Spawner de Vaca.'},
-          {id:'spawner-de-cerdo', name:'Spawner de Cerdo', icon:'🐷', price:PRODUCT_PRICES.cerdo, desc:'Spawner de Cerdo.'},
-          {id:'spawner-de-zombi', name:'Spawner de Zombie', icon:'🧟', price:PRODUCT_PRICES.zombie, desc:'Spawner de Zombie.'}
-        ]
-      }
-    ]
+    name: 'Spawners', icon: '🔥', subcategories: [{ name: 'Spawners de Mobs', products: [
+      {id:'spawner-de-golem', name:'Spawner de Golem', icon:'🗿', price:PRODUCT_PRICES.golem, desc:'Spawner de Golem.'},
+      {id:'spawner-de-enderman', name:'Spawner de Enderman', icon:'👁️', price:PRODUCT_PRICES.enderman, desc:'Spawner de Enderman.'},
+      {id:'spawner-de-blaze', name:'Spawner de Blaze', icon:'🔥', price:PRODUCT_PRICES.blaze, desc:'Spawner de Blaze.'},
+      {id:'spawner-de-shulker', name:'Spawner de Shulker', icon:'🟪', price:PRODUCT_PRICES.shulker, desc:'Spawner de Shulker.'},
+      {id:'spawner-de-creeper', name:'Spawner de Creeper', icon:'💥', price:PRODUCT_PRICES.creeper, desc:'Spawner de Creeper.'},
+      {id:'spawner-de-esqueleto', name:'Spawner de Esqueleto', icon:'💀', price:PRODUCT_PRICES.esqueleto, desc:'Spawner de Esqueleto.'},
+      {id:'spawner-de-vaca', name:'Spawner de Vaca', icon:'🐄', price:PRODUCT_PRICES.vaca, desc:'Spawner de Vaca.'},
+      {id:'spawner-de-cerdo', name:'Spawner de Cerdo', icon:'🐷', price:PRODUCT_PRICES.cerdo, desc:'Spawner de Cerdo.'},
+      {id:'spawner-de-zombi', name:'Spawner de Zombie', icon:'🧟', price:PRODUCT_PRICES.zombie, desc:'Spawner de Zombie.'}
+    ]}]
   },
   {
-    name: 'Coins',
-    icon: '🪙',
-    subcategories: [
-      {
-        name: 'Horizon Coins',
-        products: [
-          {id:'5000-horizon-coins', name:'5.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['5000-horizon-coins'], desc:'5.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
-          {id:'10000-horizon-coins', name:'10.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['10000-horizon-coins'], desc:'10.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
-          {id:'25000-horizon-coins', name:'25.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['25000-horizon-coins'], desc:'25.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
-          {id:'50000-horizon-coins', name:'50.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['50000-horizon-coins'], desc:'50.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
-          {id:'100000-horizon-coins', name:'100.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['100000-horizon-coins'], desc:'100.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'}
-        ]
-      }
-    ]
+    name: 'Otros', icon: '🧩', subcategories: [{ name: 'Otros', products: [
+      {id:'desmuteo-y-limpieza', name:'Desmuteo y limpieza', icon:'🔓', price:16, desc:'Servicio de desmuteo y limpieza de sanciones de chat.'},
+      {id:'desvaneo-discord', name:'Desvaneo de Discord', icon:'💬', price:17, desc:'Servicio de desvaneo de Discord.'},
+      {id:'desvaneo-total', name:'Desvaneo total', icon:'🔓', price:30, desc:'Servicio de desvaneo total.'},
+      {id:'prefijo-custom', name:'Prefijo custom', icon:'🏷️', price:10, desc:'Personaliza tu prefijo dentro del servidor.'}
+    ]}]
+  },
+  {
+    name: 'Coins', icon: '🪙', subcategories: [{ name: 'Horizon Coins', products: [
+      {id:'5000-horizon-coins', name:'5.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['5000-horizon-coins'], desc:'5.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+      {id:'10000-horizon-coins', name:'10.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['10000-horizon-coins'], desc:'10.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+      {id:'25000-horizon-coins', name:'25.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['25000-horizon-coins'], desc:'25.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+      {id:'50000-horizon-coins', name:'50.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['50000-horizon-coins'], desc:'50.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'},
+      {id:'100000-horizon-coins', name:'100.000 Horizon Coins', icon:'🪙', price:PRODUCT_PRICES['100000-horizon-coins'], desc:'100.000 Horizon Coins para gastar en la tienda y ventajas exclusivas de HorizonMC.'}
+    ]}]
   }
 ];
 
@@ -98,6 +114,12 @@ export default function Home() {
   const [paymentError, setPaymentError] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentResult, setPaymentResult] = useState('');
+  const [infoProduct, setInfoProduct] = useState(null);
+  const [monthLabel, setMonthLabel] = useState('');
+
+  useEffect(() => {
+    setMonthLabel(currentMonthLabel());
+  }, []);
 
   useEffect(() => {
     try {
@@ -286,7 +308,7 @@ export default function Home() {
     <main>
       <header className="nav">
         <div className="logo"><span>H</span> HORIZON<span>MC</span></div>
-        <nav><a href="#inicio">Inicio</a><a href="#tienda">Tienda</a><a href="#como">Cómo funciona</a></nav>
+        <nav><a href="#inicio">Inicio</a><a href="#tienda">Tienda</a><a href="#antes-de-comprar">Antes de comprar</a><a href="#como">Cómo funciona</a></nav>
         <div className="navActions">
           {user ? (
             <div className="accountWrap">
@@ -306,23 +328,153 @@ export default function Home() {
         </div>
       </header>
 
-      <section id="inicio" className="hero">
-        <div className="glow"></div>
-        <div className="heroText">
-          <div className="pill">✦ TIENDA OFICIAL DE HORIZONMC</div>
-          <h1>Construye tu leyenda en <em>HorizonMC.</em></h1>
-          <p>Rangos, protección, spawners y Horizon Coins para mejorar tu experiencia dentro del servidor.</p>
-          <a className="primary" href="#tienda">Ver tienda <span>→</span></a>
-          <div className="server"><i></i> Servidor online <strong>HorizonMC</strong></div>
-        </div>
-        <div className="heroCard creatorCard">
-          <div className="orb">👑</div>
-          <div className="cardLabel">CREADOR</div>
-          <h2>Creador</h2>
-          <p>Creador de HorizonMC</p>
-          <div className="skinFrame">
-            <img src="/creator-skin.png" alt="Skin de Minecraft de GoodKyuX" />
+      <section id="inicio" className="homeIntro">
+        <div className="homeIntroGlow"></div>
+        <div className="homeIntroInner">
+          <div className="welcomeCopy">
+            <div className="pill">✦ TIENDA OFICIAL DE HORIZONMC</div>
+            <h1>Bienvenido a la tienda oficial de <em>HorizonMC.</em></h1>
+            <p className="welcomeLead">
+              Aquí podrás adquirir artículos para mejorar tu experiencia dentro del servidor.
+              Ofrecemos rangos y ventajas globales y por modalidades.
+            </p>
+            <p className="welcomeLead">
+              Puedes elegir la categoría del producto que desees desde el menú de la parte superior.
+            </p>
+            <a className="primary" href="#tienda">Ver tienda <span>→</span></a>
           </div>
+
+          <div className="welcomeVisual">
+            <div className="welcomeOrb">H</div>
+            <span>HORIZONMC</span>
+            <strong>Tienda oficial</strong>
+            <p>Rangos · Protección · Spawners · Coins</p>
+          </div>
+        </div>
+
+        <div className="homePanels">
+          <article className="homePanel supportPanel" id="soporte">
+            <div className="panelIcon">💬</div>
+            <div>
+              <span className="panelEyebrow">DISCORD DEL SOPORTE</span>
+              <h2>¿Necesitas ayuda?</h2>
+              <p>Entra en nuestro Discord para contactar con el equipo de soporte y crear un ticket.</p>
+              <a className="discordButton" href={DISCORD_URL}>Abrir Discord <span>↗</span></a>
+            </div>
+          </article>
+
+          <article className="homePanel warningPanel">
+            <div className="panelIcon">!</div>
+            <div>
+              <span className="panelEyebrow">IMPORTANTE</span>
+              <h2>Estás en la tienda oficial de HorizonMC</h2>
+              <p>
+                Asegúrate de que estás comprando en la tienda correcta.
+                No realizamos reembolsos por compras realizadas en una tienda equivocada.
+              </p>
+            </div>
+          </article>
+
+          <article className="homePanel premiumPanel">
+            <div className="panelIcon">✓</div>
+            <div>
+              <span className="panelEyebrow">IMPORTANTE PARA PREMIUM</span>
+              <h2>Si eres Premium, usa /premium antes de comprar</h2>
+              <p>Por seguridad, asegúrate de tener puesto el comando <strong>/premium</strong> en el servidor antes de realizar tu compra.</p>
+            </div>
+          </article>
+
+          <article className="homePanel donorPanel">
+            <div className="donorCrown">🏆</div>
+            <div>
+              <span className="panelEyebrow">MÁXIMO DONADOR</span>
+              <h2>{MAX_DONOR_NAME}</h2>
+              <p>Fue quien más donó durante <strong>{monthLabel || 'este mes'}</strong>.</p>
+              <small>El periodo se actualiza cada mes.</small>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="paymentsInfo">
+        <div className="paymentsIntro">
+          <div className="eyebrow">PAGOS SEGUROS</div>
+          <h2>Atención al cliente / Soporte</h2>
+          <p>
+            Los pagos se completarán de forma segura y serán gestionados por HorizonMC.
+            Los métodos de pago disponibles pueden variar según tu país.
+          </p>
+          <a className="supportLink" href="#soporte">Discord del soporte <span>→</span></a>
+        </div>
+
+        <div className="paymentsMethods">
+          <div className="paymentHeading">
+            <strong>Métodos de pago</strong>
+            <span>Más de 40 métodos de pago disponibles</span>
+          </div>
+          <p className="paymentDescription">
+            Las tarjetas de crédito y débito se gestionan de forma global.
+            Aquí tienes algunos de los principales métodos disponibles actualmente.
+          </p>
+          <div className="paymentCards">
+            <div className="paymentCard"><span className="visaLogo">VISA</span><small>Tarjeta</small></div>
+            <div className="paymentCard"><span className="masterLogo"><i></i><i></i></span><small>Mastercard</small></div>
+            <div className="paymentCard amexCard"><span>AMERICAN EXPRESS</span><small>Tarjeta</small></div>
+            <div className="paymentCard paypalCard"><span className="paypalLogo">P</span><small>PayPal</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="antes-de-comprar" className="beforeBuy">
+        <div className="beforeBuyInner">
+          <div className="eyebrow">ANTES DE COMPRAR</div>
+          <h2>¿Eres padre y tienes dudas sobre lo que tu hij@ quiere adquirir?</h2>
+          <p className="beforeLead">
+            En nuestra tienda encontrarás únicamente artículos digitales que serán obtenidos dentro del servidor de HorizonMC.
+            Con estos artículos tu hij@ puede disfrutar y utilizarlos mientras juega. También tendrá acceso prioritario
+            (con la compra de un rango) a la hora de conectarse al servidor si este está lleno o, por ejemplo,
+            tendrá su nombre remarcado en colores, lo que le hará destacar frente a otros jugadores.
+          </p>
+
+          <div className="beforeBuyNotice">
+            <h3>Información importante antes de comprar</h3>
+            <ul>
+              <li>Todas las compras realizadas en esta tienda de HorizonMC están bajo la regulación de Tip4Serv. Al comprar, aceptas sus términos y condiciones. Revísalos antes de comprar nada.</li>
+              <li>Al realizar una compra de objetos, asegúrate de tener el <strong>inventario vacío</strong> para no perder ningún ítem. En caso de pérdida o muerte dentro del juego, HorizonMC no se hace responsable.</li>
+              <li>Los rangos son <strong>personales e intransferibles</strong>.</li>
+            </ul>
+          </div>
+
+          <div className="beforeBuySupport">
+            <h3>¿No has recibido tu artículo?</h3>
+            <p>
+              En caso de no recibir el artículo solicitado en un plazo <strong>máximo de 24 horas</strong>,
+              contacta con el equipo de HorizonMC a través de nuestro Discord.
+            </p>
+            <a className="discordButton" href={DISCORD_URL}>Abrir Discord <span>↗</span></a>
+          </div>
+
+          <div className="refundBox">
+            <div className="eyebrow">REEMBOLSO DE PRODUCTOS</div>
+            <h3>Política de reembolsos</h3>
+            <p>
+              Los productos de nuestra tienda no son reembolsables, bajo las políticas y leyes establecidas por Tip4Serv.
+              Esto se debe a las características únicas de las transacciones digitales, donde los bienes y servicios se
+              consumen instantáneamente y no pueden devolverse en las mismas condiciones que los artículos físicos.
+              Los productos que incluyan monedas o cualquier objeto virtual <strong>no son aptos para reembolso bajo ningún concepto</strong>.
+            </p>
+            <p>
+              En casos <strong>muy excepcionales</strong>, se podrá emitir el reembolso de una compra si el propietario
+              del servidor/tienda o los encargados responsables lo deciden y aprueban en consenso tras supervisar el caso.
+              Esto podrá suceder principalmente cuando se produzca un fallo en la entrega de la compra.
+            </p>
+            <p>
+              <strong>No admitimos reembolsos</strong> de nuestros productos si el motivo es un baneo por incumplir
+              nuestros términos de servicio y/o las normas de nuestro servidor o tienda.
+            </p>
+          </div>
+
+          <a className="backHomeButton" href="#inicio">Volver a la página principal</a>
         </div>
       </section>
 
@@ -360,7 +512,10 @@ export default function Home() {
               <p>{p.desc}</p>
               <div className="buyRow">
                 <strong>{typeof p.price === 'number' ? `${p.price.toFixed(2)} €` : 'Precio pendiente'}</strong>
-                <button onClick={() => add(p)}>Añadir</button>
+                <div className="productActions">
+                  <button className="infoButton" aria-label={`Información sobre ${p.name}`} onClick={() => setInfoProduct(p)}>!</button>
+                  <button className="addButton" aria-label={`Añadir ${p.name} al carrito`} onClick={() => add(p)}>+</button>
+                </div>
               </div>
             </article>
           ))}
@@ -417,6 +572,18 @@ export default function Home() {
               <>¿Ya tienes cuenta? <button onClick={openLogin}>Iniciar sesión</button></>
             )}
           </div>
+        </div>
+      </div>}
+
+      {infoProduct && <div className="overlay authOverlay" onClick={() => setInfoProduct(null)}>
+        <div className="authModal productInfoModal" onClick={e => e.stopPropagation()}>
+          <button className="authClose" onClick={() => setInfoProduct(null)}>✕</button>
+          <div className="productInfoIcon">{infoProduct.icon}</div>
+          <div className="eyebrow">INFORMACIÓN DEL PRODUCTO</div>
+          <h2>{infoProduct.name}</h2>
+          <p className="authIntro">{infoProduct.desc}</p>
+          <div className="checkoutTotal"><span>Precio</span><strong>{Number(infoProduct.price).toFixed(2)} €</strong></div>
+          <button className="authSubmit" type="button" onClick={() => { add(infoProduct); setInfoProduct(null); }}>Añadir al carrito +</button>
         </div>
       </div>}
 
