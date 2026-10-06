@@ -1,17 +1,3 @@
-¡Entendido perfectamente!
-
-Para conseguir exactamente ese comportamiento (que el usuario **no pueda comprar** ni añadir al carrito los productos desde la pestaña de consulta/permanente de *Rangos Básicos*, *Rangos Avanzados* o *Rangos Premium*, y que **únicamente** se puedan comprar al entrar en sus pestañas temporales correspondientes), he realizado la siguiente configuración exacta:
-
-1. He marcado como `disabled: true` todos los productos de las subcategorías **Rangos Básicos**, **Rangos Avanzados** y **Rangos Premium**. Al hacer esto:
-* El botón de añadir al carrito (`+`) queda deshabilitado (`🔒`).
-* Si abren la ventana de información (`!`), el botón para comprar se desactiva notificando que es una sección solo de consulta.
-
-
-2. Los rangos **sí son comprables únicamente** cuando el usuario selecciona **`Rangos Básicos · Temporales`**, **`Rangos Avanzados · Temporales`** o **`Rangos Premium · Temporales`**.
-
-Aquí tienes todo el código completo listo para usar sin tocar ninguna otra parte del proyecto:
-
-```javascript
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -195,28 +181,25 @@ const categories = [
         name: 'Rangos Básicos',
         products: [
           {
-            id: 'vip-permanente',
-            name: 'VIP Permanente',
-            icon: '🔒',
+            id: 'vip',
+            name: 'VIP',
+            icon: '👑',
             price: PRODUCT_PRICES.vip,
-            desc: 'Rango VIP permanente (Solo información. Dirígete a Rangos Básicos · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'Rango VIP para destacar en HorizonMC.'
           },
           {
-            id: 'vipplus-permanente',
-            name: 'VIP+ Permanente',
-            icon: '🔒',
+            id: 'vipplus',
+            name: 'VIP+',
+            icon: '💎',
             price: PRODUCT_PRICES.vipplus,
-            desc: 'Rango VIP+ permanente (Solo información. Dirígete a Rangos Básicos · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'Mejora tu experiencia con el rango VIP+.'
           },
           {
-            id: 'mvp-permanente',
-            name: 'MVP Permanente',
-            icon: '🔒',
+            id: 'mvp',
+            name: 'MVP',
+            icon: '⭐',
             price: PRODUCT_PRICES.mvp,
-            desc: 'Rango MVP permanente (Solo información. Dirígete a Rangos Básicos · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'Rango MVP con ventajas exclusivas.'
           }
         ]
       },
@@ -224,25 +207,25 @@ const categories = [
         name: 'Rangos Básicos · Temporales',
         products: [
           {
-            id: 'vip',
-            name: 'VIP',
-            icon: '🛒',
-            price: PRODUCT_PRICES.vip,
-            desc: 'Rango VIP temporal para destacar en HorizonMC.'
+            id: 'vip-temporal',
+            name: 'VIP · Temporal',
+            icon: '👑',
+            price: null,
+            desc: 'Rango VIP temporal.'
           },
           {
-            id: 'vipplus',
-            name: 'VIP+',
-            icon: '🛒',
-            price: PRODUCT_PRICES.vipplus,
-            desc: 'Mejora tu experiencia con el rango VIP+ temporal.'
+            id: 'vipplus-temporal',
+            name: 'VIP+ · Temporal',
+            icon: '💎',
+            price: null,
+            desc: 'Rango VIP+ temporal.'
           },
           {
-            id: 'mvp',
-            name: 'MVP',
-            icon: '🛒',
-            price: PRODUCT_PRICES.mvp,
-            desc: 'Rango MVP temporal con ventajas exclusivas.'
+            id: 'mvp-temporal',
+            name: 'MVP · Temporal',
+            icon: '⭐',
+            price: null,
+            desc: 'Rango MVP temporal.'
           }
         ]
       },
@@ -250,20 +233,18 @@ const categories = [
         name: 'Rangos Avanzados',
         products: [
           {
-            id: 'nova-permanente',
-            name: 'NOVA Permanente',
-            icon: '🔒',
+            id: 'nova',
+            name: 'NOVA',
+            icon: '🌌',
             price: PRODUCT_PRICES.nova,
-            desc: 'Rango NOVA permanente (Solo información. Dirígete a Rangos Avanzados · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'Rango avanzado NOVA para jugadores destacados.'
           },
           {
-            id: 'vortes-permanente',
-            name: 'VORTEX Permanente',
-            icon: '🔒',
+            id: 'vortes',
+            name: 'VORTEX',
+            icon: '🌀',
             price: PRODUCT_PRICES.vortes,
-            desc: 'Rango VORTEX permanente (Solo información. Dirígete a Rangos Avanzados · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'Rango avanzado VORTEX con beneficios especiales.'
           }
         ]
       },
@@ -271,18 +252,18 @@ const categories = [
         name: 'Rangos Avanzados · Temporales',
         products: [
           {
-            id: 'nova',
-            name: 'NOVA',
-            icon: '🛒',
-            price: PRODUCT_PRICES.nova,
-            desc: 'Rango avanzado NOVA temporal.'
+            id: 'nova-temporal',
+            name: 'NOVA · Temporal',
+            icon: '🌌',
+            price: null,
+            desc: 'Rango NOVA temporal.'
           },
           {
-            id: 'vortes',
-            name: 'VORTEX',
-            icon: '🛒',
-            price: PRODUCT_PRICES.vortes,
-            desc: 'Rango avanzado VORTEX temporal con beneficios especiales.'
+            id: 'vortex-temporal',
+            name: 'VORTEX · Temporal',
+            icon: '🌀',
+            price: null,
+            desc: 'Rango VORTEX temporal.'
           }
         ]
       },
@@ -290,20 +271,18 @@ const categories = [
         name: 'Rangos Premium',
         products: [
           {
-            id: 'eterno-permanente',
-            name: 'ETERNO Permanente',
-            icon: '🔒',
+            id: 'eterno',
+            name: 'ETERNO',
+            icon: '♾️',
             price: PRODUCT_PRICES.eterno,
-            desc: 'Rango ETERNO permanente (Solo información. Dirígete a Rangos Premium · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'Rango premium ETERNO para los jugadores más exclusivos.'
           },
           {
-            id: 'divino-permanente',
-            name: 'DIVINO Permanente',
-            icon: '🔒',
+            id: 'divino',
+            name: 'DIVINO',
+            icon: '✨',
             price: PRODUCT_PRICES.divino,
-            desc: 'El rango DIVINO permanente (Solo información. Dirígete a Rangos Premium · Temporales para adquirirlo).',
-            disabled: true
+            desc: 'El rango premium DIVINO con ventajas exclusivas.'
           }
         ]
       },
@@ -311,18 +290,72 @@ const categories = [
         name: 'Rangos Premium · Temporales',
         products: [
           {
-            id: 'eterno',
-            name: 'ETERNO',
-            icon: '🛒',
-            price: PRODUCT_PRICES.eterno,
-            desc: 'Rango premium ETERNO temporal.'
+            id: 'eterno-temporal',
+            name: 'ETERNO · Temporal',
+            icon: '♾️',
+            price: null,
+            desc: 'Rango ETERNO temporal.'
           },
           {
-            id: 'divino',
-            name: 'DIVINO',
-            icon: '🛒',
+            id: 'divino-temporal',
+            name: 'DIVINO · Temporal',
+            icon: '✨',
+            price: null,
+            desc: 'Rango DIVINO temporal.'
+          }
+        ]
+      },
+      {
+        name: 'Rangos Permanentes',
+        products: [
+          {
+            id: 'vip-permanente',
+            name: 'VIP Permanente',
+            icon: '👑',
+            price: PRODUCT_PRICES.vip,
+            desc: 'Rango VIP permanente para destacar en HorizonMC.'
+          },
+          {
+            id: 'vipplus-permanente',
+            name: 'VIP+ Permanente',
+            icon: '💎',
+            price: PRODUCT_PRICES.vipplus,
+            desc: 'Rango VIP+ permanente con ventajas exclusivas.'
+          },
+          {
+            id: 'mvp-permanente',
+            name: 'MVP Permanente',
+            icon: '⭐',
+            price: PRODUCT_PRICES.mvp,
+            desc: 'Rango MVP permanente con ventajas exclusivas.'
+          },
+          {
+            id: 'nova-permanente',
+            name: 'NOVA Permanente',
+            icon: '🌌',
+            price: PRODUCT_PRICES.nova,
+            desc: 'Rango NOVA permanente para jugadores destacados.'
+          },
+          {
+            id: 'vortes-permanente',
+            name: 'VORTEX Permanente',
+            icon: '🌀',
+            price: PRODUCT_PRICES.vortes,
+            desc: 'Rango VORTEX permanente con beneficios especiales.'
+          },
+          {
+            id: 'eterno-permanente',
+            name: 'ETERNO Permanente',
+            icon: '♾️',
+            price: PRODUCT_PRICES.eterno,
+            desc: 'Rango ETERNO permanente para los jugadores más exclusivos.'
+          },
+          {
+            id: 'divino-permanente',
+            name: 'DIVINO Permanente',
+            icon: '✨',
             price: PRODUCT_PRICES.divino,
-            desc: 'El rango premium DIVINO temporal con ventajas exclusivas.'
+            desc: 'El rango DIVINO permanente con ventajas exclusivas.'
           }
         ]
       },
@@ -840,7 +873,6 @@ export default function Home() {
   }
 
   function add(product) {
-    if (product.disabled) return;
     setCart(prev => [
       ...prev,
       product
@@ -1274,7 +1306,7 @@ export default function Home() {
 
             <div className="grid">
               {products.map(p => (
-                <article className={`product ${p.disabled ? 'disabledProduct' : ''}`} key={p.id}>
+                <article className="product" key={p.id}>
                   <div className="productIcon">{p.icon}</div>
                   <h3>{p.name}</h3>
                   <p>{p.desc}</p>
@@ -1298,10 +1330,9 @@ export default function Home() {
                       <button
                         className="addButton"
                         aria-label={`Añadir ${p.name} al carrito`}
-                        disabled={p.disabled}
                         onClick={() => add(p)}
                       >
-                        {p.disabled ? '🔒' : '+'}
+                        +
                       </button>
                     </div>
                   </div>
@@ -1499,22 +1530,16 @@ export default function Home() {
               </strong>
             </div>
 
-            {!infoProduct.disabled ? (
-              <button
-                className="authSubmit"
-                type="button"
-                onClick={() => {
-                  add(infoProduct);
-                  setInfoProduct(null);
-                }}
-              >
-                Añadir al carrito +
-              </button>
-            ) : (
-              <p style={{ textAlign: 'center', opacity: 0.6, marginTop: '15px' }}>
-                🔒 Este producto es únicamente informativo y no se puede añadir al carrito desde esta categoría.
-              </p>
-            )}
+            <button
+              className="authSubmit"
+              type="button"
+              onClick={() => {
+                add(infoProduct);
+                setInfoProduct(null);
+              }}
+            >
+              Añadir al carrito +
+            </button>
           </div>
         </div>
       )}
@@ -2020,11 +2045,6 @@ export default function Home() {
           background: rgba(255, 255, 255, 0.035);
         }
 
-        .product.disabledProduct {
-          opacity: 0.75;
-          border-color: rgba(255, 255, 255, 0.04);
-        }
-
         .product h3 {
           margin: 13px 0 9px;
           line-height: 1.3;
@@ -2059,12 +2079,6 @@ export default function Home() {
           height: 38px;
           padding: 0 12px;
           border-radius: 10px;
-        }
-
-        .addButton:disabled {
-          cursor: not-allowed;
-          opacity: 0.5;
-          background: rgba(255, 255, 255, 0.05);
         }
 
         .paymentPanel {
@@ -2228,6 +2242,9 @@ export default function Home() {
         }
 
         @media (max-width: 1200px) {
+          /* En ventanas intermedias el contenido pierde ancho por la barra lateral.
+             Los paneles de inicio pasan a una sola columna para que el texto
+             nunca quede comprimido palabra por palabra. */
           .homePanels {
             grid-template-columns: 1fr;
           }
@@ -2295,5 +2312,3 @@ export default function Home() {
     </main>
   );
 }
-
-```
