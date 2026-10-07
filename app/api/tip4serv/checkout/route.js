@@ -6,23 +6,6 @@ const STORE_ID = '22965';
 const DEFAULT_SITE_URL =
   'https://horizonmc-store-2gkr6g0mg-horizon-mc-web.vercel.app';
 
-/*
-|--------------------------------------------------------------------------
-| NORMALIZAR TEXTO
-|--------------------------------------------------------------------------
-| Permite comparar:
-|
-| VIP
-| vip
-| VIP+
-| VIP Plus
-| VORTEX
-| vortex
-|
-| sin depender de mayúsculas, espacios, +, tildes, etc.
-|--------------------------------------------------------------------------
-*/
-
 function normalizeText(value) {
   return String(value ?? '')
     .normalize('NFD')
@@ -31,49 +14,14 @@ function normalizeText(value) {
     .replace(/[^a-z0-9]/g, '');
 }
 
-/*
-|--------------------------------------------------------------------------
-| ALIAS DE PRODUCTOS
-|--------------------------------------------------------------------------
-|
-| Estos son los IDs que utiliza TU tienda.
-| Los productos reales de Tip4Serv pueden tener otros IDs.
-|
-|--------------------------------------------------------------------------
-*/
-
 const PRODUCT_ALIASES = {
-  vip: [
-    'vip'
-  ],
-
-  vipplus: [
-    'vipplus',
-    'vip+',
-    'vip plus',
-    'vip-plus'
-  ],
-
-  mvp: [
-    'mvp'
-  ],
-
-  nova: [
-    'nova'
-  ],
-
-  vortex: [
-    'vortex',
-    'vortes'
-  ],
-
-  eterno: [
-    'eterno'
-  ],
-
-  divino: [
-    'divino'
-  ],
+  vip: ['vip'],
+  vipplus: ['vipplus', 'vip+', 'vip plus', 'vip-plus'],
+  mvp: ['mvp'],
+  nova: ['nova'],
+  vortex: ['vortex', 'vortes'],
+  eterno: ['eterno'],
+  divino: ['divino'],
 
   'proteccion-de-clan': [
     'protecciondeclan',
@@ -82,12 +30,6 @@ const PRODUCT_ALIASES = {
     'proteccion-200'
   ]
 };
-
-/*
-|--------------------------------------------------------------------------
-| OBTENER NOMBRES POSIBLES
-|--------------------------------------------------------------------------
-*/
 
 function getPossibleNames(localId, localName) {
   const normalizedId = normalizeText(localId);
@@ -102,35 +44,17 @@ function getPossibleNames(localId, localName) {
   ].filter(Boolean);
 }
 
-/*
-|--------------------------------------------------------------------------
-| BUSCAR PRODUCTO REAL DE TIP4SERV
-|--------------------------------------------------------------------------
-*/
-
 function findTip4ServProduct(products, localId, localName) {
   const possibleNames = getPossibleNames(
     localId,
     localName
   );
 
-  /*
-   * Primero intentamos coincidencia exacta
-   * por nombre o slug.
-   */
-
+  // Primera búsqueda: coincidencia exacta
   let found = products.find((product) => {
-    const productName = normalizeText(
-      product?.name
-    );
-
-    const productSlug = normalizeText(
-      product?.slug
-    );
-
-    const productTitle = normalizeText(
-      product?.title
-    );
+    const productName = normalizeText(product?.name);
+    const productSlug = normalizeText(product?.slug);
+    const productTitle = normalizeText(product?.title);
 
     return (
       possibleNames.includes(productName) ||
@@ -143,17 +67,7 @@ function findTip4ServProduct(products, localId, localName) {
     return found;
   }
 
-  /*
-   * Segunda búsqueda:
-   * coincidencia parcial.
-   *
-   * Esto permite encontrar, por ejemplo:
-   *
-   * "VIP Plus"
-   * "Rango VIP Plus"
-   * "VIP+"
-   */
-
+  // Segunda búsqueda: coincidencia parcial
   found = products.find((product) => {
     const values = [
       product?.name,
@@ -175,12 +89,6 @@ function findTip4ServProduct(products, localId, localName) {
 
   return found || null;
 }
-
-/*
-|--------------------------------------------------------------------------
-| EXTRAER PRODUCTOS DE LA RESPUESTA DE TIP4SERV
-|--------------------------------------------------------------------------
-*/
 
 function extractProducts(data) {
   if (Array.isArray(data)) {
@@ -206,20 +114,13 @@ function extractProducts(data) {
   return [];
 }
 
-/*
-|--------------------------------------------------------------------------
-| POST CHECKOUT
-|--------------------------------------------------------------------------
-*/
-
 export async function POST(request) {
   try {
-    /*
-     * API KEY
-     */
+    // =========================================================
+    // 1. API KEY
+    // =========================================================
 
-    const apiKey =
-      process.env.TIP4SERV_API_KEY;
+    const apiKey = process.env.TIP4SERV_API_KEY;
 
     if (!apiKey) {
       return NextResponse.json(
@@ -233,37 +134,28 @@ export async function POST(request) {
       );
     }
 
-    /*
-     * LEER REQUEST
-     */
+    // =========================================================
+    // 2. DATOS DEL CLIENTE
+    // =========================================================
 
-    const body =
-      await request.json();
+    const body = await request.json();
 
-    const cart =
-      Array.isArray(body?.cart)
-        ? body.cart
-        : [];
+    const cart = Array.isArray(body?.cart)
+      ? body.cart
+      : [];
 
-    const minecraftUsername =
-      String(
-        body?.minecraft_username || ''
-      ).trim();
+    const minecraftUsername = String(
+      body?.minecraft_username || ''
+    ).trim();
 
-    const email =
-      String(
-        body?.email || ''
-      ).trim();
-
-    /*
-     * VALIDACIONES
-     */
+    const email = String(
+      body?.email || ''
+    ).trim();
 
     if (!cart.length) {
       return NextResponse.json(
         {
-          error:
-            'El carrito está vacío.'
+          error: 'El carrito está vacío.'
         },
         {
           status: 400
@@ -274,8 +166,7 @@ export async function POST(request) {
     if (!minecraftUsername) {
       return NextResponse.json(
         {
-          error:
-            'Falta el nombre de Minecraft.'
+          error: 'Falta el nombre de Minecraft.'
         },
         {
           status: 400
@@ -283,32 +174,25 @@ export async function POST(request) {
       );
     }
 
-    /*
-     |--------------------------------------------------------------------------
-     | OBTENER PRODUCTOS DE TIP4SERV
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 3. OBTENER PRODUCTOS DE TIP4SERV
+    // =========================================================
 
-    const productsResponse =
-      await fetch(
-        `${TIP4SERV_API}/store/products?store=${encodeURIComponent(
-          STORE_ID
-        )}`,
-        {
-          method: 'GET',
+    const productsResponse = await fetch(
+      `${TIP4SERV_API}/store/products?store=${encodeURIComponent(
+        STORE_ID
+      )}`,
+      {
+        method: 'GET',
 
-          headers: {
-            Authorization:
-              `Bearer ${apiKey}`,
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          Accept: 'application/json'
+        },
 
-            Accept:
-              'application/json'
-          },
-
-          cache:
-            'no-store'
-        }
-      );
+        cache: 'no-store'
+      }
+    );
 
     const productsRaw =
       await productsResponse.text();
@@ -316,17 +200,12 @@ export async function POST(request) {
     let productsData = null;
 
     try {
-      productsData =
-        productsRaw
-          ? JSON.parse(productsRaw)
-          : null;
+      productsData = productsRaw
+        ? JSON.parse(productsRaw)
+        : null;
     } catch {
       productsData = null;
     }
-
-    /*
-     * ERROR OBTENIENDO PRODUCTOS
-     */
 
     if (!productsResponse.ok) {
       console.error(
@@ -349,10 +228,7 @@ export async function POST(request) {
 
           response:
             productsData ||
-            productsRaw.slice(
-              0,
-              2000
-            )
+            productsRaw.slice(0, 2000)
         },
         {
           status: 502
@@ -360,26 +236,13 @@ export async function POST(request) {
       );
     }
 
-    /*
-     |--------------------------------------------------------------------------
-     | LISTA REAL DE PRODUCTOS
-     |--------------------------------------------------------------------------
-     */
-
     const tip4servProducts =
-      extractProducts(
-        productsData
-      );
+      extractProducts(productsData);
 
     console.log(
       'TIP4SERV PRODUCTS FOUND:',
       tip4servProducts.length
     );
-
-    /*
-     * Si Tip4Serv devuelve 0 productos,
-     * no tiene sentido continuar.
-     */
 
     if (!tip4servProducts.length) {
       console.error(
@@ -402,26 +265,20 @@ export async function POST(request) {
       );
     }
 
-    /*
-     |--------------------------------------------------------------------------
-     | CONVERTIR CARRITO
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 4. BUSCAR LOS PRODUCTOS DEL CARRITO
+    // =========================================================
 
     const checkoutProducts = [];
 
-    for (
-      const cartProduct of cart
-    ) {
-      const localId =
-        String(
-          cartProduct?.id ?? ''
-        ).trim();
+    for (const cartProduct of cart) {
+      const localId = String(
+        cartProduct?.id ?? ''
+      ).trim();
 
-      const localName =
-        String(
-          cartProduct?.name ?? ''
-        ).trim();
+      const localName = String(
+        cartProduct?.name ?? ''
+      ).trim();
 
       const quantity =
         Number(
@@ -436,11 +293,6 @@ export async function POST(request) {
         }
       );
 
-      /*
-       * Buscar producto REAL
-       * dentro de Tip4Serv.
-       */
-
       const foundProduct =
         findTip4ServProduct(
           tip4servProducts,
@@ -448,9 +300,9 @@ export async function POST(request) {
           localName
         );
 
-      /*
-       * NO ENCONTRADO
-       */
+      // =======================================================
+      // PRODUCTO NO ENCONTRADO
+      // =======================================================
 
       if (!foundProduct) {
         console.error(
@@ -460,12 +312,6 @@ export async function POST(request) {
             localName
           }
         );
-
-        /*
-         * Mostramos en logs los productos
-         * disponibles para poder detectar
-         * cualquier nombre diferente.
-         */
 
         console.error(
           'PRODUCTOS DISPONIBLES EN TIP4SERV:',
@@ -517,19 +363,17 @@ export async function POST(request) {
         );
       }
 
-      /*
-       * ID REAL DE TIP4SERV
-       */
+      // =======================================================
+      // OBTENER ID REAL DE TIP4SERV
+      // =======================================================
 
       const tip4servProductId =
         foundProduct?.id ??
         foundProduct?.product_id;
 
       if (
-        tip4servProductId ===
-        undefined ||
-        tip4servProductId ===
-        null ||
+        tip4servProductId === undefined ||
+        tip4servProductId === null ||
         tip4servProductId === ''
       ) {
         return NextResponse.json(
@@ -546,45 +390,46 @@ export async function POST(request) {
         );
       }
 
-      /*
-       * Añadir producto al checkout
-       */
+      // =======================================================
+      // AÑADIR PRODUCTO AL CHECKOUT
+      //
+      // IMPORTANTE:
+      // NO enviamos donation_amount
+      // NO enviamos server_selection
+      // =======================================================
 
       checkoutProducts.push({
-        product_id: Number(tip4servProductId),
-        type: 'addtocart',
+        product_id:
+          Number(tip4servProductId),
+
+        type:
+          'addtocart',
+
         quantity:
-          Number.isFinite(quantity) && quantity > 0
+          Number.isFinite(quantity) &&
+          quantity > 0
             ? quantity
             : 1,
-        custom_fields: {},
-        server_selection: 1
+
+        custom_fields:
+          {}
       });
     }
 
-    /*
-     |--------------------------------------------------------------------------
-     | URL DE LA WEB
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 5. URL DE LA WEB
+    // =========================================================
 
-    const siteUrl =
-      String(
-        process.env
-          .NEXT_PUBLIC_SITE_URL ||
-          DEFAULT_SITE_URL
-      )
-        .trim()
-        .replace(
-          /\/$/,
-          ''
-        );
+    const siteUrl = String(
+      process.env.NEXT_PUBLIC_SITE_URL ||
+        DEFAULT_SITE_URL
+    )
+      .trim()
+      .replace(/\/$/, '');
 
-    /*
-     |--------------------------------------------------------------------------
-     | BODY OFICIAL DE CHECKOUT
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 6. CREAR CHECKOUT
+    // =========================================================
 
     const checkoutBody = {
       products:
@@ -611,11 +456,6 @@ export async function POST(request) {
         `${siteUrl}/?tip4serv=pending`
     };
 
-    /*
-     * LOG PARA VER EXACTAMENTE
-     * QUÉ ESTAMOS ENVIANDO
-     */
-
     console.log(
       'TIP4SERV CHECKOUT REQUEST:',
       JSON.stringify(
@@ -625,11 +465,9 @@ export async function POST(request) {
       )
     );
 
-    /*
-     |--------------------------------------------------------------------------
-     | CREAR CHECKOUT
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 7. ENVIAR CHECKOUT A TIP4SERV
+    // =========================================================
 
     const checkoutResponse =
       await fetch(
@@ -637,8 +475,7 @@ export async function POST(request) {
           STORE_ID
         )}&redirect=true`,
         {
-          method:
-            'POST',
+          method: 'POST',
 
           headers: {
             Authorization:
@@ -661,24 +498,15 @@ export async function POST(request) {
         }
       );
 
-    /*
-     |--------------------------------------------------------------------------
-     | LEER RESPUESTA
-     |--------------------------------------------------------------------------
-     */
-
     const checkoutRaw =
       await checkoutResponse.text();
 
     let checkoutData = null;
 
     try {
-      checkoutData =
-        checkoutRaw
-          ? JSON.parse(
-              checkoutRaw
-            )
-          : null;
+      checkoutData = checkoutRaw
+        ? JSON.parse(checkoutRaw)
+        : null;
     } catch {
       checkoutData = null;
     }
@@ -693,15 +521,11 @@ export async function POST(request) {
       checkoutRaw
     );
 
-    /*
-     |--------------------------------------------------------------------------
-     | ERROR DE TIP4SERV
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 8. ERROR DE TIP4SERV
+    // =========================================================
 
-    if (
-      !checkoutResponse.ok
-    ) {
+    if (!checkoutResponse.ok) {
       const errorMessage =
         checkoutData?.error?.message ||
         checkoutData?.error ||
@@ -712,16 +536,11 @@ export async function POST(request) {
       return NextResponse.json(
         {
           error:
-            String(
-              errorMessage
-            ),
+            String(errorMessage),
 
           response:
             checkoutData ||
-            checkoutRaw.slice(
-              0,
-              2000
-            )
+            checkoutRaw.slice(0, 2000)
         },
         {
           status:
@@ -730,11 +549,9 @@ export async function POST(request) {
       );
     }
 
-    /*
-     |--------------------------------------------------------------------------
-     | OBTENER URL DEL CHECKOUT
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 9. OBTENER URL DE PAGO
+    // =========================================================
 
     const checkoutUrl =
       checkoutData?.url ||
@@ -748,10 +565,7 @@ export async function POST(request) {
 
           response:
             checkoutData ||
-            checkoutRaw.slice(
-              0,
-              2000
-            )
+            checkoutRaw.slice(0, 2000)
         },
         {
           status: 502
@@ -759,11 +573,9 @@ export async function POST(request) {
       );
     }
 
-    /*
-     |--------------------------------------------------------------------------
-     | TODO CORRECTO
-     |--------------------------------------------------------------------------
-     */
+    // =========================================================
+    // 10. DEVOLVER URL A LA WEB
+    // =========================================================
 
     return NextResponse.json({
       url:
