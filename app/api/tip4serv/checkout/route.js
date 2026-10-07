@@ -368,10 +368,7 @@ export async function POST(request) {
               )
             : 1,
 
-        custom_fields: {},
-
-        donation_amount:
-          0
+        custom_fields: {}
       });
     }
 
