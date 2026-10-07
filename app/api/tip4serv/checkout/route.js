@@ -50,7 +50,6 @@ function findTip4ServProduct(products, localId, localName) {
     localName
   );
 
-  // Primera búsqueda: coincidencia exacta
   let found = products.find((product) => {
     const productName = normalizeText(product?.name);
     const productSlug = normalizeText(product?.slug);
@@ -67,7 +66,6 @@ function findTip4ServProduct(products, localId, localName) {
     return found;
   }
 
-  // Segunda búsqueda: coincidencia parcial
   found = products.find((product) => {
     const values = [
       product?.name,
@@ -117,7 +115,7 @@ function extractProducts(data) {
 export async function POST(request) {
   try {
     // =========================================================
-    // 1. API KEY
+    // API KEY
     // =========================================================
 
     const apiKey = process.env.TIP4SERV_API_KEY;
@@ -135,7 +133,7 @@ export async function POST(request) {
     }
 
     // =========================================================
-    // 2. DATOS DEL CLIENTE
+    // DATOS DEL CLIENTE
     // =========================================================
 
     const body = await request.json();
@@ -175,7 +173,7 @@ export async function POST(request) {
     }
 
     // =========================================================
-    // 3. OBTENER PRODUCTOS DE TIP4SERV
+    // OBTENER PRODUCTOS DE TIP4SERV
     // =========================================================
 
     const productsResponse = await fetch(
@@ -184,12 +182,10 @@ export async function POST(request) {
       )}`,
       {
         method: 'GET',
-
         headers: {
           Authorization: `Bearer ${apiKey}`,
           Accept: 'application/json'
         },
-
         cache: 'no-store'
       }
     );
@@ -245,15 +241,6 @@ export async function POST(request) {
     );
 
     if (!tip4servProducts.length) {
-      console.error(
-        'TIP4SERV PRODUCTS DATA:',
-        JSON.stringify(
-          productsData,
-          null,
-          2
-        )
-      );
-
       return NextResponse.json(
         {
           error:
@@ -266,7 +253,7 @@ export async function POST(request) {
     }
 
     // =========================================================
-    // 4. BUSCAR LOS PRODUCTOS DEL CARRITO
+    // BUSCAR PRODUCTOS DEL CARRITO
     // =========================================================
 
     const checkoutProducts = [];
@@ -280,10 +267,9 @@ export async function POST(request) {
         cartProduct?.name ?? ''
       ).trim();
 
-      const quantity =
-        Number(
-          cartProduct?.quantity || 1
-        );
+      const quantity = Number(
+        cartProduct?.quantity || 1
+      );
 
       console.log(
         'BUSCANDO PRODUCTO:',
@@ -300,10 +286,6 @@ export async function POST(request) {
           localName
         );
 
-      // =======================================================
-      // PRODUCTO NO ENCONTRADO
-      // =======================================================
-
       if (!foundProduct) {
         console.error(
           'PRODUCTO NO ENCONTRADO:',
@@ -311,24 +293,6 @@ export async function POST(request) {
             localId,
             localName
           }
-        );
-
-        console.error(
-          'PRODUCTOS DISPONIBLES EN TIP4SERV:',
-          tip4servProducts.map(
-            (product) => ({
-              id:
-                product?.id ??
-                product?.product_id,
-
-              name:
-                product?.name ??
-                product?.title,
-
-              slug:
-                product?.slug
-            })
-          )
         );
 
         return NextResponse.json(
@@ -363,10 +327,6 @@ export async function POST(request) {
         );
       }
 
-      // =======================================================
-      // OBTENER ID REAL DE TIP4SERV
-      // =======================================================
-
       const tip4servProductId =
         foundProduct?.id ??
         foundProduct?.product_id;
@@ -391,11 +351,11 @@ export async function POST(request) {
       }
 
       // =======================================================
-      // AÑADIR PRODUCTO AL CHECKOUT
+      // PRODUCTO NORMAL
       //
-      // IMPORTANTE:
-      // NO enviamos donation_amount
-      // NO enviamos server_selection
+      // NO donation_amount
+      // NO server_selection
+      // NO discord_id
       // =======================================================
 
       checkoutProducts.push({
@@ -417,18 +377,21 @@ export async function POST(request) {
     }
 
     // =========================================================
-    // 5. URL DE LA WEB
+    // URL DE LA WEB
     // =========================================================
 
     const siteUrl = String(
       process.env.NEXT_PUBLIC_SITE_URL ||
-        DEFAULT_SITE_URL
+      DEFAULT_SITE_URL
     )
       .trim()
       .replace(/\/$/, '');
 
     // =========================================================
-    // 6. CREAR CHECKOUT
+    // CHECKOUT
+    //
+    // IMPORTANTE:
+    // NO HAY discord_id AQUÍ
     // =========================================================
 
     const checkoutBody = {
@@ -436,14 +399,14 @@ export async function POST(request) {
         checkoutProducts,
 
       user: {
+        minecraft_username:
+          minecraftUsername,
+
         ...(email
           ? {
-              email
+              email: email
             }
-          : {}),
-
-        minecraft_username:
-          minecraftUsername
+          : {})
       },
 
       redirect_success_checkout:
@@ -466,7 +429,7 @@ export async function POST(request) {
     );
 
     // =========================================================
-    // 7. ENVIAR CHECKOUT A TIP4SERV
+    // ENVIAR CHECKOUT
     // =========================================================
 
     const checkoutResponse =
@@ -522,7 +485,7 @@ export async function POST(request) {
     );
 
     // =========================================================
-    // 8. ERROR DE TIP4SERV
+    // ERROR
     // =========================================================
 
     if (!checkoutResponse.ok) {
@@ -550,7 +513,7 @@ export async function POST(request) {
     }
 
     // =========================================================
-    // 9. OBTENER URL DE PAGO
+    // URL DE PAGO
     // =========================================================
 
     const checkoutUrl =
@@ -574,7 +537,7 @@ export async function POST(request) {
     }
 
     // =========================================================
-    // 10. DEVOLVER URL A LA WEB
+    // RESPUESTA
     // =========================================================
 
     return NextResponse.json({
