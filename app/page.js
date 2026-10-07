@@ -736,59 +736,130 @@ export default function Home() {
   }
 
   async function payWithTip4Serv() {
-    setPaymentError('');
-    setPaymentResult('');
+  setPaymentError('');
+  setPaymentResult('');
 
-    if (!cart.length) {
-      setPaymentError(
-        'El carrito está vacío.'
-      );
+  if (!cart.length) {
+    setPaymentError(
+      'El carrito está vacío.'
+    );
 
-      return;
-    }
-
-    setPaymentLoading(true);
-
-    try {
-      const response = await fetch(
-        '/api/tip4serv/checkout',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            cart: cart.map(p => ({
-              id: p.id
-            }))
-          })
-        }
-      );
-
-      const data =
-        await response.json();
-
-      if (
-        !response.ok ||
-        !data.url
-      ) {
-        throw new Error(
-          data.error ||
-            'No se pudo iniciar el checkout de Tip4Serv.'
-        );
-      }
-
-      window.location.href =
-        data.url;
-    } catch (err) {
-      setPaymentError(
-        err.message ||
-          'No se pudo iniciar el pago.'
-      );
-
-      setPaymentLoading(false);
-    }
+    return;
   }
+
+  if (!user?.username) {
+    setPaymentError(
+      'Debes iniciar sesión antes de realizar la compra.'
+    );
+
+    return;
+  }
+
+  setPaymentLoading(true);
+
+  try {
+    const response = await fetch(
+      '/api/tip4serv/checkout',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+
+        body: JSON.stringify({
+          cart: cart.map(p => ({
+            id: p.id
+          })),
+
+          minecraft_username:
+            user.username,
+
+          email:
+            user.email || ''
+        })
+      }
+    );
+
+    /*
+     * Primero obtenemos el texto.
+     * Así nunca vuelve a aparecer:
+     * Unexpected token '<'
+     */
+    const contentType =
+      response.headers.get(
+        'content-type'
+      ) || '';
+
+    const rawResponse =
+      await response.text();
+
+    let data = null;
+
+    if (
+      contentType.includes(
+        'application/json'
+      )
+    ) {
+      try {
+        data = JSON.parse(
+          rawResponse
+        );
+      } catch {
+        data = null;
+      }
+    }
+
+    /*
+     * Si Vercel/Next.js devuelve HTML,
+     * mostramos un error comprensible.
+     */
+    if (!data) {
+      console.error(
+        'Respuesta no JSON:',
+        rawResponse
+      );
+
+      throw new Error(
+        response.status === 404
+          ? 'No se encontró la ruta /api/tip4serv/checkout en Vercel. Comprueba la ubicación de route.js.'
+          : `El servidor devolvió una respuesta no válida (${response.status}).`
+      );
+    }
+
+    if (
+      !response.ok ||
+      !data.url
+    ) {
+      throw new Error(
+        data.error ||
+          'No se pudo iniciar el checkout de Tip4Serv.'
+      );
+    }
+
+    /*
+     * Redirección al checkout seguro
+     * generado por Tip4Serv.
+     */
+    window.location.href =
+      data.url;
+
+  } catch (err) {
+    console.error(
+      'CHECKOUT ERROR:',
+      err
+    );
+
+    setPaymentError(
+      err instanceof Error
+        ? err.message
+        : 'No se pudo iniciar el pago.'
+    );
+
+    setPaymentLoading(false);
+  }
+}
 
   const cartTotal =
     cart.reduce(
