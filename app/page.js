@@ -217,7 +217,7 @@ const categories = [
             id: 'vortex',
             name: 'VORTEX',
             icon: '🌀',
-            price: PRODUCT_PRICES.vortex,
+            price: PRODUCT_PRICES.vortes,
             desc: 'Rango avanzado VORTEX con beneficios especiales.'
           }
         ]
