@@ -204,32 +204,6 @@ const categories = [
         ]
       },
       {
-        name: 'Rangos Básicos · Temporales',
-        products: [
-          {
-            id: 'vip-temporal',
-            name: 'VIP · Temporal',
-            icon: '👑',
-            price: null,
-            desc: 'Rango VIP temporal.'
-          },
-          {
-            id: 'vipplus-temporal',
-            name: 'VIP+ · Temporal',
-            icon: '💎',
-            price: null,
-            desc: 'Rango VIP+ temporal.'
-          },
-          {
-            id: 'mvp-temporal',
-            name: 'MVP · Temporal',
-            icon: '⭐',
-            price: null,
-            desc: 'Rango MVP temporal.'
-          }
-        ]
-      },
-      {
         name: 'Rangos Avanzados',
         products: [
           {
@@ -240,30 +214,11 @@ const categories = [
             desc: 'Rango avanzado NOVA para jugadores destacados.'
           },
           {
-            id: 'vortes',
+            id: 'vortex',
             name: 'VORTEX',
             icon: '🌀',
-            price: PRODUCT_PRICES.vortes,
+            price: PRODUCT_PRICES.vortex,
             desc: 'Rango avanzado VORTEX con beneficios especiales.'
-          }
-        ]
-      },
-      {
-        name: 'Rangos Avanzados · Temporales',
-        products: [
-          {
-            id: 'nova-temporal',
-            name: 'NOVA · Temporal',
-            icon: '🌌',
-            price: null,
-            desc: 'Rango NOVA temporal.'
-          },
-          {
-            id: 'vortex-temporal',
-            name: 'VORTEX · Temporal',
-            icon: '🌀',
-            price: null,
-            desc: 'Rango VORTEX temporal.'
           }
         ]
       },
@@ -283,79 +238,6 @@ const categories = [
             icon: '✨',
             price: PRODUCT_PRICES.divino,
             desc: 'El rango premium DIVINO con ventajas exclusivas.'
-          }
-        ]
-      },
-      {
-        name: 'Rangos Premium · Temporales',
-        products: [
-          {
-            id: 'eterno-temporal',
-            name: 'ETERNO · Temporal',
-            icon: '♾️',
-            price: null,
-            desc: 'Rango ETERNO temporal.'
-          },
-          {
-            id: 'divino-temporal',
-            name: 'DIVINO · Temporal',
-            icon: '✨',
-            price: null,
-            desc: 'Rango DIVINO temporal.'
-          }
-        ]
-      },
-      {
-        name: 'Rangos Permanentes',
-        products: [
-          {
-            id: 'vip-permanente',
-            name: 'VIP Permanente',
-            icon: '👑',
-            price: PRODUCT_PRICES.vip,
-            desc: 'Rango VIP permanente para destacar en HorizonMC.'
-          },
-          {
-            id: 'vipplus-permanente',
-            name: 'VIP+ Permanente',
-            icon: '💎',
-            price: PRODUCT_PRICES.vipplus,
-            desc: 'Rango VIP+ permanente con ventajas exclusivas.'
-          },
-          {
-            id: 'mvp-permanente',
-            name: 'MVP Permanente',
-            icon: '⭐',
-            price: PRODUCT_PRICES.mvp,
-            desc: 'Rango MVP permanente con ventajas exclusivas.'
-          },
-          {
-            id: 'nova-permanente',
-            name: 'NOVA Permanente',
-            icon: '🌌',
-            price: PRODUCT_PRICES.nova,
-            desc: 'Rango NOVA permanente para jugadores destacados.'
-          },
-          {
-            id: 'vortes-permanente',
-            name: 'VORTEX Permanente',
-            icon: '🌀',
-            price: PRODUCT_PRICES.vortes,
-            desc: 'Rango VORTEX permanente con beneficios especiales.'
-          },
-          {
-            id: 'eterno-permanente',
-            name: 'ETERNO Permanente',
-            icon: '♾️',
-            price: PRODUCT_PRICES.eterno,
-            desc: 'Rango ETERNO permanente para los jugadores más exclusivos.'
-          },
-          {
-            id: 'divino-permanente',
-            name: 'DIVINO Permanente',
-            icon: '✨',
-            price: PRODUCT_PRICES.divino,
-            desc: 'El rango DIVINO permanente con ventajas exclusivas.'
           }
         ]
       },
