@@ -240,53 +240,6 @@ const categories = [
             desc: 'El rango premium DIVINO con ventajas exclusivas.'
           }
         ]
-      },
-      {
-        name: 'Ascenso de rango',
-        products: [
-          {
-            id: 'ascenso-vip-vipplus',
-            name: 'VIP → VIP+',
-            icon: '⬆️',
-            price: 5,
-            desc: 'Asciende tu rango de VIP a VIP+ pagando únicamente la diferencia.'
-          },
-          {
-            id: 'ascenso-vipplus-mvp',
-            name: 'VIP+ → MVP',
-            icon: '⬆️',
-            price: 5,
-            desc: 'Asciende tu rango de VIP+ a MVP pagando únicamente la diferencia.'
-          },
-          {
-            id: 'ascenso-mvp-nova',
-            name: 'MVP → NOVA',
-            icon: '⬆️',
-            price: 10,
-            desc: 'Asciende tu rango de MVP a NOVA pagando únicamente la diferencia.'
-          },
-          {
-            id: 'ascenso-nova-vortex',
-            name: 'NOVA → VORTEX',
-            icon: '⬆️',
-            price: 10,
-            desc: 'Asciende tu rango de NOVA a VORTEX pagando únicamente la diferencia.'
-          },
-          {
-             id: 'ascenso-vortex-eterno',
-             name: 'VORTEX → ETERNO',
-             icon: '⬆️',
-             price: 15,
-             desc: 'Asciende tu rango de VORTEX a ETERNO pagando únicamente la diferencia.'
-          },
-          {
-           id: 'ascenso-eterno-divino',
-           name: 'ETERNO → DIVINO',
-           icon: '⬆️',
-           price: 15,
-           desc: 'Asciende tu rango de ETERNO a DIVINO pagando únicamente la diferencia.'
-          }
-        ]
       }
     ]
   },
