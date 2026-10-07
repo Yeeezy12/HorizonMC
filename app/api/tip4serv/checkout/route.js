@@ -1,24 +1,18 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 const TIP4SERV_API = 'https://api.tip4serv.com/v1';
-const DEFAULT_STORE_ID = '22965';
+const STORE_ID = '22965';
+
 const DEFAULT_SITE_URL =
   'https://horizonmc-store-2gkr6g0mg-horizon-mc-web.vercel.app';
 
 export async function POST(request) {
   try {
-    const storeId = String(
-      process.env.TIP4SERV_STORE_ID || DEFAULT_STORE_ID
+    const apiKey = String(
+      process.env.TIP4SERV_API_KEY || ''
     ).trim();
-
-    const apiKey = String(process.env.TIP4SERV_API_KEY || '').trim();
-
-    if (!storeId) {
-      return NextResponse.json(
-        { error: 'Falta TIP4SERV_STORE_ID.' },
-        { status: 500 }
-      );
-    }
 
     if (!apiKey) {
       return NextResponse.json(
@@ -30,72 +24,191 @@ export async function POST(request) {
       );
     }
 
-    const body = await request.json();
-    const cart = Array.isArray(body.cart) ? body.cart : [];
+    let body;
+
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        {
+          error: 'La petición recibida no contiene JSON válido.'
+        },
+        { status: 400 }
+      );
+    }
+
+    const cart = Array.isArray(body?.cart)
+      ? body.cart
+      : [];
+
+    const minecraftUsername = String(
+      body?.minecraft_username || ''
+    ).trim();
+
+    const email = String(
+      body?.email || ''
+    ).trim();
 
     if (!cart.length) {
       return NextResponse.json(
-        { error: 'El carrito está vacío.' },
+        {
+          error: 'El carrito está vacío.'
+        },
         { status: 400 }
       );
     }
 
     const products = cart.map((item) => {
-      const slug = String(item?.id || '').trim();
+      const productSlug = String(
+        item?.id || ''
+      ).trim();
 
-      if (!slug) {
-        throw new Error('Hay un producto sin slug configurado.');
+      if (!productSlug) {
+        throw new Error(
+          'Hay un producto sin ID configurado.'
+        );
       }
 
       return {
-        product_slug: slug,
+        product_slug: productSlug,
         type: 'addtocart',
         quantity: 1
       };
     });
 
     const siteUrl = String(
-      process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL
+      process.env.NEXT_PUBLIC_SITE_URL ||
+        DEFAULT_SITE_URL
     )
       .trim()
       .replace(/\/$/, '');
 
+    const checkoutBody = {
+      products,
+
+      redirect_success_checkout:
+        `${siteUrl}/?tip4serv=success`,
+
+      redirect_canceled_checkout:
+        `${siteUrl}/?tip4serv=cancelled`
+    };
+
+    /*
+     * Conservamos los datos del jugador.
+     * Solo los añadimos cuando existen.
+     */
+    if (minecraftUsername) {
+      checkoutBody.minecraft_username =
+        minecraftUsername;
+    }
+
+    if (email) {
+      checkoutBody.email = email;
+    }
+
     const response = await fetch(
       `${TIP4SERV_API}/store/checkout?store=${encodeURIComponent(
-        storeId
+        STORE_ID
       )}&redirect=true`,
       {
         method: 'POST',
+
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
           Authorization: `Bearer ${apiKey}`
         },
-        body: JSON.stringify({
-          products,
-          redirect_success_checkout: `${siteUrl}/?tip4serv=success`,
-          redirect_canceled_checkout: `${siteUrl}/?tip4serv=cancelled`
-        }),
+
+        body: JSON.stringify(checkoutBody),
+
         cache: 'no-store'
       }
     );
 
-    const data = await response.json();
+    /*
+     * NO hacemos response.json() directamente.
+     * Primero comprobamos qué nos ha devuelto Tip4Serv.
+     */
+    const contentType =
+      response.headers.get('content-type') || '';
 
-    if (!response.ok || !data.url) {
+    const rawResponse =
+      await response.text();
+
+    let data = null;
+
+    if (
+      contentType.includes('application/json')
+    ) {
+      try {
+        data = JSON.parse(rawResponse);
+      } catch {
+        data = null;
+      }
+    }
+
+    /*
+     * Si Tip4Serv devuelve HTML, mostramos un
+     * error controlado en lugar de romper con
+     * "Unexpected token <".
+     */
+    if (!data) {
+      return NextResponse.json(
+        {
+          error:
+            `Tip4Serv devolvió una respuesta no válida (${response.status}).`,
+          status: response.status,
+          response:
+            rawResponse.slice(0, 500)
+        },
+        {
+          status: 502
+        }
+      );
+    }
+
+    if (!response.ok) {
       const apiError =
         data?.error?.message ||
         data?.error ||
         data?.message ||
-        'Tip4Serv no pudo generar el checkout.';
+        'Tip4Serv rechazó la creación del checkout.';
 
       return NextResponse.json(
-        { error: String(apiError) },
-        { status: response.status || 502 }
+        {
+          error: String(apiError)
+        },
+        {
+          status:
+            response.status >= 400
+              ? response.status
+              : 502
+        }
       );
     }
 
-    return NextResponse.json({ url: data.url });
+    if (!data.url) {
+      return NextResponse.json(
+        {
+          error:
+            'Tip4Serv respondió correctamente, pero no devolvió una URL de checkout.',
+          response: data
+        },
+        {
+          status: 502
+        }
+      );
+    }
+
+    return NextResponse.json({
+      url: data.url
+    });
   } catch (error) {
+    console.error(
+      'TIP4SERV CHECKOUT ERROR:',
+      error
+    );
+
     return NextResponse.json(
       {
         error:
@@ -103,7 +216,9 @@ export async function POST(request) {
             ? error.message
             : 'No se pudo iniciar el checkout de Tip4Serv.'
       },
-      { status: 500 }
+      {
+        status: 500
+      }
     );
   }
 }
