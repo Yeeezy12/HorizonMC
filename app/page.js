@@ -273,18 +273,18 @@ const categories = [
             desc: 'Asciende tu rango de NOVA a VORTEX pagando únicamente la diferencia.'
           },
           {
-            id: 'ascenso-vortex-eterno',
-            name: 'VORTEX → ETERNO',
-            icon: '⬆️',
-            price: 15,
-            desc: 'Asciende tu rango de VORTEX a ETERNO pagando únicamente la diferencia.'
+             id: 'ascenso-vortex-eterno',
+             name: 'VORTEX → ETERNO',
+             icon: '⬆️',
+             price: 15,
+             desc: 'Asciende tu rango de VORTEX a ETERNO pagando únicamente la diferencia.'
           },
           {
-            id: 'ascenso-eterno-divino',
-            name: 'ETERNO → DIVINO',
-            icon: '⬆️',
-            price: 15,
-            desc: 'Asciende tu rango de ETERNO a DIVINO pagando únicamente la diferencia.'
+           id: 'ascenso-eterno-divino',
+           name: 'ETERNO → DIVINO',
+           icon: '⬆️',
+           price: 15,
+           desc: 'Asciende tu rango de ETERNO a DIVINO pagando únicamente la diferencia.'
           }
         ]
       }
