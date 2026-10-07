@@ -551,28 +551,14 @@ export async function POST(request) {
        */
 
       checkoutProducts.push({
-        product_id:
-          Number(
-            tip4servProductId
-          ),
-
-        type:
-          'addtocart',
-
+        product_id: Number(tip4servProductId),
+        type: 'addtocart',
         quantity:
-          Number.isFinite(quantity) &&
-          quantity > 0
+          Number.isFinite(quantity) && quantity > 0
             ? quantity
             : 1,
-
-        custom_fields:
-          {},
-
-        server_selection:
-          1,
-
-        donation_amount:
-          0
+        custom_fields: {},
+        server_selection: 1
       });
     }
 
