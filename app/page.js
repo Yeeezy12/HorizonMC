@@ -214,7 +214,7 @@ const categories = [
             desc: 'Rango avanzado NOVA para jugadores destacados.'
           },
           {
-            id: 'vortex',
+            id: 'vortes',
             name: 'VORTEX',
             icon: '🌀',
             price: PRODUCT_PRICES.vortes,
