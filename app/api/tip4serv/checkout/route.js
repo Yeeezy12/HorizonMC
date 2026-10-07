@@ -396,14 +396,6 @@ export async function POST(request) {
     const checkoutBody = {
       products,
 
-      user: {
-        email:
-          email,
-
-        minecraft_username:
-          minecraftUsername
-      },
-
       redirect_success_checkout:
         `${siteUrl}/?tip4serv=success`,
 
