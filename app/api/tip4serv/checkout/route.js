@@ -135,18 +135,17 @@ export async function POST(request) {
     const rawResponse =
       await response.text();
 
+    console.log('TIP4SERV STATUS:', response.status);
+    console.log('TIP4SERV CONTENT-TYPE:', contentType);
+    console.log('TIP4SERV RAW RESPONSE:', rawResponse);
+
     let data = null;
 
-    if (
-      contentType.includes('application/json')
-    ) {
-      try {
-        data = JSON.parse(rawResponse);
-      } catch {
-        data = null;
-      }
+    try {
+      data = JSON.parse(rawResponse);
+    } catch {
+      data = null;
     }
-
     /*
      * Si Tip4Serv devuelve HTML, mostramos un
      * error controlado en lugar de romper con
